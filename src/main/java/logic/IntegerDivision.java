@@ -23,71 +23,58 @@ public class IntegerDivision {
         }
         return integers;
     }
+//
+//    public int fromListToInt(List<Integer> integers) {
+//        int result = 0;
+//        for (Integer integer : integers) {
+//            result = 10 * result + integer;
+//        }
+//        return result;
+//    }
 
-    public int fromListToInt(List<Integer> integers) {
-        int result = 0;
-        for (Integer integer : integers) {
-            result = 10 * result + integer;
+    public int  longDivision(){
+        int result;
+        int remainder = 0;
+        int actualQuotient = dividend/divisor;
+        int subDividend = 0;
+        int partOfQuotient;
+        int actualIndivisible = dividend%divisor;
+
+        StringBuilder sb = new StringBuilder();
+
+        List<Integer> dividendList = fromIntToList(dividend);
+
+        for (int i = 0; i < dividendList.size(); ) {
+            if (dividendList.get(i)==0&&subDividend==0){
+                if (i==dividendList.size()-1) {
+                    sb.append("0");
+                    break;
+                }else {
+                    sb.append("0");
+                    ++i;
+                    subDividend = dividendList.get(i);
+                }
+            }
+            while (subDividend<divisor) {
+                subDividend = subDividend * 10 + dividendList.get(i);
+                if (subDividend<divisor) {
+                    i++;
+                }
+            }
+
+            partOfQuotient = subDividend/divisor;
+            sb.append(partOfQuotient);
+            remainder = subDividend - partOfQuotient*divisor;
+
+            i++;
+
+            subDividend = remainder;
+
         }
+        result = Integer.parseInt(sb.toString());
         return result;
     }
 
-//    public Integer quotientBuilder() {
-//        List<Integer> dividendList = new ArrayList<Integer>();
-//        List<Integer> quitientList = new ArrayList<Integer>();
-//        List<Integer> subDividendList = new ArrayList<Integer>();
-//        Integer subDividendInt = null;
-//        Integer indivisibleRemainder = 0;
-//        Integer quitientInt = null;
-//
-//
-//        dividendList = fromIntToList(dividend);
-//        for (int i = 0; i <dividendList.size()-1 ;) {
-//            int remainder = 0;
-//            if (subDividendInt==null) {
-//                subDividendInt = dividendList.get(i);
-//            }
-//
-//            if (subDividendInt/divisor!=0&&subDividendInt<10&&subDividendInt>6){
-//                subDividendList.add(0, dividendList.get(i));
-//                subDividendInt = fromListToInt(subDividendList);
-//                remainder = subDividendInt%divisor;
-//                quitientList.add(subDividendInt/divisor);
-//                i++;
-//            }
-//
-//
-//            else {
-//                if (subDividendList.isEmpty()) {
-//                    subDividendList.add(0, dividendList.get(i));
-//                    subDividendList.add(1, dividendList.get(i + 1));
-//                    subDividendInt = fromListToInt(subDividendList);
-//                }
-//                remainder = subDividendInt%divisor;
-//                quitientList.add(subDividendInt/divisor);
-//                quitientInt = fromListToInt(quitientList);
-//                if (remainder==0&&i<dividendList.size()-2){
-//                }
-//
-//                subDividendList.clear();
-//                i++;
-//                subDividendList.add(0, remainder);
-//                subDividendList.add(1, dividendList.get(i+1));
-//                subDividendInt = fromListToInt(subDividendList);
-//                if (dividendList.get(dividendList.size() - 1) ==0){
-//
-//                    quitientInt *=10;
-//                }
-//                if (subDividendInt<divisor){
-//                    indivisibleRemainder = subDividendInt;
-//                    break;
-//                }
-//            }
-//        }
-//
-//
-//        return quitientInt; //just for exam
-//    }
 }
 
 
