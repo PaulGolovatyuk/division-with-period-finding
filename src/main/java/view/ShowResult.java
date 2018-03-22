@@ -57,7 +57,7 @@ public class ShowResult {
 
 
         //building string #3
-
+        String other = "";
         StringBuilder sbThree = new StringBuilder();
         String third;
         List<String> thirdString = new ArrayList<String>();
@@ -76,18 +76,24 @@ public class ShowResult {
         second = sbTwo.toString();
 
 //        //building other strings
-        char [] arr = new char[integerDivision.getDividendList().size()];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] =  ' ';
+        List<String> stringList = new ArrayList<String>(10);
+        StringBuilder
+        for (int i = 0; i < 10; i++) {
+            stringList.add(" ");
         }
-        for (int i = 0; i < integerDivision.getActualQuotientList().size(); i++) {
-            
+        for (int i = 0; i <integerDivision.getActualQuotientList().size() ; i++) {
+            stringList.add(i+1, "_"+integerDivision.getRemainderList().get(i)+"\n");
+            stringList.add(i+2, integerDivision.getSubtrahendList().get(i).toString()+"\n");
+            stringList.add(i+2, "--"+"\n");
+
+        }
+        for (String aStringList : stringList) {
+            other += "" + aStringList;
         }
 
+ //       other = stringList.toString();
 
-
-
-        result = first+"\n"+second+"\n"+third;
+        result = first+"\n"+second+"\n"+third+"\n"+other;
         return result;
     }
 
