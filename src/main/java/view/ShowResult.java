@@ -3,11 +3,10 @@ package view;
 import logic.IntegerDivision;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ShowResult {
-    private IntegerDivision integerDivision = new IntegerDivision(78945, 48);
+    private IntegerDivision integerDivision = new IntegerDivision(78945, 46);
 
 
     public String resultBuilder() {
@@ -15,8 +14,7 @@ public class ShowResult {
         StringBuilder sbOne = new StringBuilder();
         integerDivision.init();
         integerDivision.longDivision();
-
-
+        
         //building string #1
         String first;
         List<String> firstString = new ArrayList<String>();
@@ -76,35 +74,68 @@ public class ShowResult {
         second = sbTwo.toString();
 
 //        //building other strings
-        List<String> stringList = new ArrayList<String>(10);
-        StringBuilder
-        for (int i = 0; i < 10; i++) {
-            stringList.add(" ");
-        }
-        for (int i = 0; i <integerDivision.getActualQuotientList().size() ; i++) {
-            stringList.add(i+1, "_"+integerDivision.getRemainderList().get(i)+"\n");
-            stringList.add(i+2, integerDivision.getSubtrahendList().get(i).toString()+"\n");
-            stringList.add(i+2, "--"+"\n");
-
-        }
-        for (String aStringList : stringList) {
-            other += "" + aStringList;
+        String[] strings = new String[integerDivision.getActualQuotientList().size()];//5
+        StringBuilder sb = new StringBuilder();
+        String res = "";
+        char[] chars = new char[integerDivision.getDividendList().size() + 1];
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = ' ';
         }
 
- //       other = stringList.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            stringBuilder.append(String.valueOf(chars[i]));
+        }
+        String justWhitespaces = stringBuilder.toString();
 
-        result = first+"\n"+second+"\n"+third+"\n"+other;
+        for (int i = 0; i < strings.length - 1; i++) {
+            String summary = "";
+            String subStringOne = justWhitespaces;
+            StringBuilder stringBuilder0 = new StringBuilder(subStringOne);
+
+            stringBuilder0.insert(i, "_" + integerDivision.getSubDividendListToPrint().get(i).toString());
+
+            String subStringTwo = justWhitespaces;
+            StringBuilder stringBuilder1 = new StringBuilder(subStringOne);
+            stringBuilder1.insert(i + 1, "" + integerDivision.getActualQuotientList().get(i + 1) * integerDivision.getDivisor());
+
+            String subStringThree = justWhitespaces;
+            StringBuilder stringBuilder2 = new StringBuilder(subStringOne);
+            StringBuilder dashes = new StringBuilder();
+            for (int j = 0; j < integerDivision.getSubDividendListToPrint().get(i).toString().length(); j++) {
+                dashes.append("-");
+
+            }
+            stringBuilder2.insert(i + 1, "" + dashes.toString());
+
+            summary = "" + stringBuilder0 + "\n" + stringBuilder1 + "\n" + stringBuilder2;
+
+            strings[i] = summary;
+        }
+
+
+        for (int i = 0; i < strings.length - 1; i++) {
+            res += strings[i] + "\n";
+        }
+        other = res;
+
+        // building last string
+        String lastString = "";
+        String indivisibleRemainderString = "";
+        char[] chars1 = new char[integerDivision.getDividendList().size() + 1];
+        for (int i = 0; i < chars.length; i++) {
+            chars1[i] = ' ';
+        }
+        for (char c : chars1) {
+            indivisibleRemainderString += String.valueOf(c);
+        }
+        StringBuilder indivisibleRemainderBuilder = new StringBuilder(indivisibleRemainderString);
+        indivisibleRemainderBuilder.insert(indivisibleRemainderString.length() -
+                integerDivision.getIndivisibleRemainderLength(), integerDivision.getIndivisibleRemainder());
+
+        lastString = indivisibleRemainderBuilder.toString();
+
+        result = first + "\n" + second + "\n" + third + "\n" + other + lastString;
         return result;
-    }
-
-    public void show(){
-       integerDivision.longDivision();
-    }
-    public List<String> fromIntegerListToStringList(List<Integer> integers){
-        List<String> resultList = new ArrayList<String>();
-        for (int i = 0; i <integers.size()-1 ; i++) {
-            resultList.add(integers.get(i).toString());
-        }
-        return resultList;
     }
 }
