@@ -6,59 +6,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowResult {
-    private IntegerDivision integerDivision = new IntegerDivision(78945, 46);
-
+    private IntegerDivision integerDivision = new IntegerDivision(78945, 4);
 
     public String resultBuilder() {
         String result;
-        StringBuilder sbOne = new StringBuilder();
+        StringBuilder firstStringSb = new StringBuilder();
         integerDivision.init();
         integerDivision.longDivision();
-        
+
         //building string #1
         String first;
-        List<String> firstString = new ArrayList<String>();
-        firstString.add("_");
-        firstString.add(String.valueOf(integerDivision.getDividend()));
-        firstString.add("|");
-        firstString.add(String.valueOf(integerDivision.getDivisor()));
-        for (String s : firstString) {
-            sbOne.append(s);
+        List<String> firstStringList = new ArrayList<String>();
+        firstStringList.add("_");
+        firstStringList.add(String.valueOf(integerDivision.getDividend()));
+        firstStringList.add("|");
+        firstStringList.add(String.valueOf(integerDivision.getDivisor()));
+        for (String s : firstStringList) {
+            firstStringSb.append(s);
         }
-        first = sbOne.toString();
 
 
         //building string #2
-        StringBuilder sbTwo = new StringBuilder();
+        StringBuilder secondStringSb = new StringBuilder();
         String second;
-        List<String> secondString = new ArrayList<String>();
+        List<String> secondStringList = new ArrayList<String>();
 
-        secondString.add(" ");
+        secondStringList.add(" ");
         int numberOfWhitespacesSecondString;
         if (integerDivision.getSubdividendList().get(0).toString().length() >
                 integerDivision.getSubtrahendList().get(0).toString().length()) {
-            sbTwo.append(" ");
+            secondStringSb.append(" ");
         }
-        secondString.add(integerDivision.getSubtrahendList().get(0).toString());
-        for (String s : secondString) {
-            sbTwo.append(s);
+        secondStringList.add(integerDivision.getSubtrahendList().get(0).toString());
+        for (String s : secondStringList) {
+            secondStringSb.append(s);
         }
         numberOfWhitespacesSecondString = integerDivision.getDividendList().size() -
                 integerDivision.getSubtrahendList().get(0).toString().length();
         for (int i = 0; i < numberOfWhitespacesSecondString; i++) {
-            sbTwo.append(" ");
+            secondStringSb.append(" ");
         }
-        sbTwo.append("|");
+        secondStringSb.append("|");
         for (int i = 0; i < integerDivision.getActualQuotientList().size(); i++) {
-            sbTwo.append("-");
+            secondStringSb.append("-");
         }
-
 
         //building string #3
         String other = "";
         StringBuilder sbThree = new StringBuilder();
         String third;
-        List<String> thirdString = new ArrayList<String>();
         sbThree.append(" ");
         for (int i = 0; i < integerDivision.getSubtrahendList().get(0).toString().length(); i++) {
             sbThree.append("-");
@@ -69,55 +65,46 @@ public class ShowResult {
         sbThree.append("|");
         sbThree.append(integerDivision.getActualQuotient());
 
-        third = sbThree.toString();
-
-        second = sbTwo.toString();
 
 //        //building other strings
         String[] strings = new String[integerDivision.getActualQuotientList().size()];//5
-        StringBuilder sb = new StringBuilder();
         String res = "";
         char[] chars = new char[integerDivision.getDividendList().size() + 1];
         for (int i = 0; i < chars.length; i++) {
             chars[i] = ' ';
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder whitespacesSb = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
-            stringBuilder.append(String.valueOf(chars[i]));
+            whitespacesSb.append(String.valueOf(chars[i]));
         }
-        String justWhitespaces = stringBuilder.toString();
+        String justWhitespaces = whitespacesSb.toString();
 
         for (int i = 0; i < strings.length - 1; i++) {
             String summary = "";
             String subStringOne = justWhitespaces;
-            StringBuilder stringBuilder0 = new StringBuilder(subStringOne);
-
-            stringBuilder0.insert(i, "_" + integerDivision.getSubDividendListToPrint().get(i).toString());
-
-            String subStringTwo = justWhitespaces;
-            StringBuilder stringBuilder1 = new StringBuilder(subStringOne);
-            stringBuilder1.insert(i + 1, "" + integerDivision.getActualQuotientList().get(i + 1) * integerDivision.getDivisor());
-
-            String subStringThree = justWhitespaces;
-            StringBuilder stringBuilder2 = new StringBuilder(subStringOne);
+            //construct substring #1
+            StringBuilder substringOneSb = new StringBuilder(subStringOne);
+            substringOneSb.insert(i, "_" + integerDivision.getSubDividendListToPrint().get(i).toString());
+            //construct substring #2
+            StringBuilder substringTwoSb = new StringBuilder(subStringOne);
+            substringTwoSb.insert(i + 1, "" + integerDivision.getActualQuotientList().get(i + 1) * integerDivision.getDivisor());
+            //construct substring #3
+            StringBuilder substringThreeSb = new StringBuilder(subStringOne);
             StringBuilder dashes = new StringBuilder();
             for (int j = 0; j < integerDivision.getSubDividendListToPrint().get(i).toString().length(); j++) {
                 dashes.append("-");
 
             }
-            stringBuilder2.insert(i + 1, "" + dashes.toString());
-
-            summary = "" + stringBuilder0 + "\n" + stringBuilder1 + "\n" + stringBuilder2;
-
+            substringThreeSb.insert(i + 1, "" + dashes.toString());
+            summary = "" + substringOneSb + "\n" + substringTwoSb + "\n" + substringThreeSb;
             strings[i] = summary;
         }
-
-
         for (int i = 0; i < strings.length - 1; i++) {
             res += strings[i] + "\n";
         }
         other = res;
+
 
         // building last string
         String lastString = "";
@@ -133,6 +120,9 @@ public class ShowResult {
         indivisibleRemainderBuilder.insert(indivisibleRemainderString.length() -
                 integerDivision.getIndivisibleRemainderLength(), integerDivision.getIndivisibleRemainder());
 
+        first = firstStringSb.toString();
+        second = secondStringSb.toString();
+        third = sbThree.toString();
         lastString = indivisibleRemainderBuilder.toString();
 
         result = first + "\n" + second + "\n" + third + "\n" + other + lastString;

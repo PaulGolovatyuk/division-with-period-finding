@@ -29,9 +29,13 @@ public class IntegerDivision {
     private List<Integer> subtrahendListToPrint;
     private List<Integer> indivisibleRemainderLengthList;
 
-
+    public IntegerDivision(int dividend, int divisor) {
+        this.dividend = dividend;
+        this.divisor = divisor;
+    }
     public void init() {
         actualQuotient = dividend / divisor;
+        quotient = actualQuotient;
         actualIndivisible = dividend % divisor;
         subtrahendList = new ArrayList<Integer>();
         subdividendList = new ArrayList<Integer>();
@@ -76,18 +80,17 @@ public class IntegerDivision {
         subtrahendListToPrint.remove(0);
     }
 
-    public IntegerDivision(int dividend, int divisor) {
-        this.dividend = dividend;
-        this.divisor = divisor;
-    }
-
-    public List<Integer> fromIntToList(Integer i) {
+    private List<Integer> fromIntToList(Integer i) {
         List<Integer> integers = new ArrayList<Integer>();
         char[] intCharArray = i.toString().toCharArray();
         for (char anIntCharArray : intCharArray) {
             integers.add(Integer.parseInt(String.valueOf(anIntCharArray)));
         }
         return integers;
+    }
+
+    public int getQuotient() {
+        return quotient;
     }
 
     public int getIndivisibleRemainderLength() {
