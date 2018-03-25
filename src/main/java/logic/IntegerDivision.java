@@ -44,6 +44,7 @@ public class IntegerDivision {
     }
 
     public int longDivision(int aDividend, int aDivisor) {
+        init();
         this.dividend = aDividend;
         this.divisor = aDivisor;
         actualQuotient = dividend/divisor;
@@ -80,7 +81,7 @@ public class IntegerDivision {
         }
         subDividendListToPrint.remove(0);
         subtrahendListToPrint.remove(0);
-        result = quotient;
+        result = Integer.parseInt(sb.toString());
         return result;
     }
 

@@ -1,6 +1,6 @@
 package logic;
 
-import org.junit.Before;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,8 +19,8 @@ public class IntegerDivisionTest {
     }
     @Test
     public void correctDivisionTest(){
-        int expected = 9;
-        int actual = integerDivision.longDivision(25, 5);
+        int expected = 25;
+        int actual = integerDivision.longDivision(336, 13);
         assertEquals(expected,actual);
     }
 }
