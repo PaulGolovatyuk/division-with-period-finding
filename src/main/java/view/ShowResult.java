@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowResult {
-    private IntegerDivision integerDivision = new IntegerDivision(78945, 4);
 
-    public String resultBuilder() {
+    public String resultBuilder(IntegerDivision integerDivision, int dividend, int divisor) {
         String result;
         StringBuilder firstStringSb = new StringBuilder();
         integerDivision.init();
-        integerDivision.longDivision();
+        integerDivision.longDivision(dividend, divisor);
 
         //building string #1
         String first;
@@ -118,7 +117,7 @@ public class ShowResult {
         }
         StringBuilder indivisibleRemainderBuilder = new StringBuilder(indivisibleRemainderString);
         indivisibleRemainderBuilder.insert(indivisibleRemainderString.length() -
-                integerDivision.getIndivisibleRemainderLength(), integerDivision.getIndivisibleRemainder());
+                (integerDivision.getIndivisibleRemainderLength()+1), integerDivision.getIndivisibleRemainder());
 
         first = firstStringSb.toString();
         second = secondStringSb.toString();

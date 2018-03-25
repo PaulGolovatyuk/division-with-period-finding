@@ -6,23 +6,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IntegerDivisionTest {
-    IntegerDivision integerDivision = new IntegerDivision(78945, 4);
-    @Before
-    public void init(){
-        integerDivision.init();
-    }
+
+    IntegerDivision integerDivision = new IntegerDivision();
+
     @Test
     public void notNullTest(){
         assertNotNull(integerDivision);
     }
-    @Test
-    public void correctDivisionResultTest(){
-        assertTrue(integerDivision.getQuotient()==19736);
-    }
     @Test(expected = ArithmeticException.class)
     public void divisionByZeroTest(){
-        IntegerDivision integerDivision = new IntegerDivision(789, 0);
-        integerDivision.init();
-        integerDivision.longDivision();
+        integerDivision.longDivision(45, 0);
+    }
+    @Test
+    public void correctDivisionTest(){
+        int expected = 9;
+        int actual = integerDivision.longDivision(25, 5);
+        assertEquals(expected,actual);
     }
 }
