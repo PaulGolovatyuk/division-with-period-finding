@@ -12,7 +12,7 @@ public class ShowResult {
         String result;
         StringBuilder firstStringSb = new StringBuilder();
         integerDivision.init();
-        integerDivision.longDivision(25225, 5);
+        integerDivision.longDivision(25025, 5);
 
         //building string #1
         String first;
@@ -24,6 +24,7 @@ public class ShowResult {
         for (String s : firstStringList) {
             firstStringSb.append(s);
         }
+
         //building string #2
         StringBuilder secondStringSb = new StringBuilder();
         String second;
@@ -35,6 +36,7 @@ public class ShowResult {
                 integerDivision.getSubtrahendList().get(0).toString().length()) {
             secondStringSb.append(" ");
         }
+
         secondStringList.add(integerDivision.getSubtrahendList().get(0).toString());
         for (String s : secondStringList) {
             secondStringSb.append(s);
@@ -80,20 +82,21 @@ public class ShowResult {
         }
         String justWhitespaces = whitespacesSb.toString();
 
+        int currentSubDividend = integerDivision.getSubdividendList().get(0);
+        int currentSubtrahend = integerDivision.getSubtrahendList().get(0);
+
         for (int i = 0; i < strings.length - 1; i++) {
+
+            int currentRemainder;
 
             String summary = "";
             String subStringOne = justWhitespaces;
             //construct substring #1
             StringBuilder substringOneSb = new StringBuilder(subStringOne);
-            if (integerDivision.getSubDividendListToPrint().isEmpty()){
-                integerDivision.getSubDividendListToPrint().add(0);
-            }
-            if (i!=integerDivision.getSubDividendListToPrint().size()) {
-                substringOneSb.insert(i + 1, "_" + integerDivision.getSubDividendListToPrint().get(i));
+            if (currentSubDividend-currentSubtrahend==0||currentSubtrahend==0){
+                continue;
             }else {
-                integerDivision.getSubDividendListToPrint().add(0);
-                substringOneSb.insert(i + 1, "_" + "0");
+                substringOneSb.insert(i + 1, "_" + currentSubDividend);
             }
 
             //construct substring #2

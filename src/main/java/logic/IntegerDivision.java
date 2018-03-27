@@ -35,21 +35,26 @@ public class IntegerDivision {
 
         quotient = actualQuotient;
 
-        subtrahendList = new ArrayList<Integer>();
-        subdividendList = new ArrayList<Integer>();
+;
 
-        sb = new StringBuilder();
 
-        remainderList = new ArrayList<Integer>();
-        subtrahendListToPrint = new ArrayList<Integer>();
-        subDividendListToPrint = new ArrayList<Integer>();
 
-        indivisibleRemainderLengthList = fromIntToList(indivisibleRemainder);
-        indivisibleRemainderLength = indivisibleRemainderLengthList.size();
+
+
     }
 
     public void longDivision(int aDividend, int aDivisor) {
 //        init();
+
+        subtrahendListToPrint = new ArrayList<Integer>();
+        subDividendListToPrint = new ArrayList<Integer>();
+        sb = new StringBuilder();
+
+        indivisibleRemainderLengthList = fromIntToList(indivisibleRemainder);
+        indivisibleRemainderLength = indivisibleRemainderLengthList.size();
+        subtrahendList = new ArrayList<Integer>();
+        remainderList = new ArrayList<Integer>();
+        subdividendList = new ArrayList<Integer>();
         this.dividend = aDividend;
         this.divisor = aDivisor;
         actualQuotient = dividend / divisor;
@@ -66,25 +71,29 @@ public class IntegerDivision {
                     subDividendListToPrint.add(subDividend);
                 }
             }
-            subdividendList.add(subDividend);
+            if (subDividend/divisor>0) {
+                subdividendList.add(subDividend);
+            }
             partOfQuotient = subDividend / divisor;
 
             remainder = subDividend % divisor;
             remainderList.add(remainder);
             subtrahend = partOfQuotient * divisor;
-            subtrahendList.add(subtrahend);
-            if (subtrahendList.get(0) == 0) {
-                subtrahendList.remove(0);
+            if (subDividend/divisor>0) {
+                subtrahendList.add(subtrahend);
             }
+//            if (subtrahendList.get(0) == 0) {
+//                subtrahendList.remove(0);
 
-            subtrahendListToPrint.add(subtrahend);
+                subtrahendListToPrint.add(subtrahend);
+
 
             subDividend = remainder;
             sb.append(partOfQuotient);
             i++;
 
         }
-        subDividendListToPrint.remove(0);
+//        subtrahendList.remove(0);
 //        subtrahendListToPrint.remove(0);
     }
 
@@ -96,6 +105,10 @@ public class IntegerDivision {
         }
 
         return integers;
+    }
+
+    public List<Integer> getSubtrahendListToPrint() {
+        return subtrahendListToPrint;
     }
 
     public int getQuotient() {
