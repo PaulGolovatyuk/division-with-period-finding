@@ -12,7 +12,7 @@ public class ShowResult {
         String result;
         StringBuilder firstStringSb = new StringBuilder();
         integerDivision.init();
-        integerDivision.longDivision(25025, 5);
+        integerDivision.longDivision(2540075, 54);
 
         //building string #1
         String first;
@@ -84,24 +84,28 @@ public class ShowResult {
 
         int currentSubDividend = integerDivision.getSubdividendList().get(0);
         int currentSubtrahend = integerDivision.getSubtrahendList().get(0);
-
+        int currentRemainder = currentSubDividend-currentSubtrahend;
+        int currentSubDividendLength = Integer.toString(currentSubDividend).length();
         for (int i = 0; i < strings.length - 1; i++) {
 
-            int currentRemainder;
+            currentSubDividend = currentRemainder*10+integerDivision.getDividendList().get(i+currentSubDividendLength);
+            currentSubtrahend = (currentSubDividend/integerDivision.getDivisor())*integerDivision.getDivisor();
+            currentRemainder = currentSubDividend%integerDivision.getDivisor();
+
 
             String summary = "";
             String subStringOne = justWhitespaces;
             //construct substring #1
             StringBuilder substringOneSb = new StringBuilder(subStringOne);
-            if (currentSubDividend-currentSubtrahend==0||currentSubtrahend==0){
+            if (currentSubDividend<=integerDivision.getDivisor()){
                 continue;
-            }else {
-                substringOneSb.insert(i + 1, "_" + currentSubDividend);
+            }else{
+                substringOneSb.insert(i+1,"_"+currentSubDividend);
             }
 
             //construct substring #2
             StringBuilder substringTwoSb = new StringBuilder(subStringOne);
-            substringTwoSb.insert(i + 2, "" + integerDivision.getActualQuotientList().get(i + 1) * integerDivision.getDivisor());
+            substringTwoSb.insert(i + 2, "" + currentSubtrahend);
 
             //construct substring #3
             StringBuilder substringThreeSb = new StringBuilder(subStringOne);
