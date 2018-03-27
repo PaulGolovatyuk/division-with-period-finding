@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IntegerDivisionTest {
-    IntegerDivision integerDivision = new IntegerDivision(78945, 4);
+    IntegerDivision integerDivision = new IntegerDivision();
     @Before
     public void init(){
         integerDivision.init();
@@ -21,8 +21,8 @@ public class IntegerDivisionTest {
     }
     @Test(expected = ArithmeticException.class)
     public void divisionByZeroTest(){
-        IntegerDivision integerDivision = new IntegerDivision(789, 0);
+        IntegerDivision integerDivision = new IntegerDivision();
         integerDivision.init();
-        integerDivision.longDivision();
+        integerDivision.longDivision(25, 5);
     }
 }
