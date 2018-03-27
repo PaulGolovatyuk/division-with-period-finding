@@ -16,7 +16,7 @@ public class ShowResultTest {
     @Test(expected = NullPointerException.class)
     public void nullPointerExTest(){
         integerDivision = null;
-        showResult.resultBuilder(integerDivision, 45,2);
+        showResult.resultBuilder();
     }
 
 }
