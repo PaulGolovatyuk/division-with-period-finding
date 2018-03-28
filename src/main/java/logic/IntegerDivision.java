@@ -34,33 +34,24 @@ public class IntegerDivision {
 
 
         quotient = actualQuotient;
-
-;
-
-
-
-
-
     }
 
     public void longDivision(int aDividend, int aDivisor) {
 //        init();
-
+        this.dividend = aDividend;
+        this.divisor = aDivisor;
         subtrahendListToPrint = new ArrayList<Integer>();
         subDividendListToPrint = new ArrayList<Integer>();
         sb = new StringBuilder();
-
+        indivisibleRemainder = dividend % divisor;
         indivisibleRemainderLengthList = fromIntToList(indivisibleRemainder);
         indivisibleRemainderLength = indivisibleRemainderLengthList.size();
         subtrahendList = new ArrayList<Integer>();
         remainderList = new ArrayList<Integer>();
         subdividendList = new ArrayList<Integer>();
-        this.dividend = aDividend;
-        this.divisor = aDivisor;
+
         actualQuotient = dividend / divisor;
-        actualIndivisible = dividend % divisor;
-        indivisibleRemainder = dividend % divisor;
-        indivisibleRemainder = dividend % divisor;
+
         dividendList = fromIntToList(dividend);
         actualQuotientList = fromIntToList(actualQuotient);
 
@@ -82,8 +73,6 @@ public class IntegerDivision {
             if (subDividend/divisor>0) {
                 subtrahendList.add(subtrahend);
             }
-//            if (subtrahendList.get(0) == 0) {
-//                subtrahendList.remove(0);
 
                 subtrahendListToPrint.add(subtrahend);
 
@@ -93,8 +82,7 @@ public class IntegerDivision {
             i++;
 
         }
-//        subtrahendList.remove(0);
-//        subtrahendListToPrint.remove(0);
+
     }
 
     private List<Integer> fromIntToList(Integer i) {

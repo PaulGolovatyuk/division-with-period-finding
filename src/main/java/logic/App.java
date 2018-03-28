@@ -7,8 +7,6 @@ public class App {
     public static void main(String[] args) {
         IntegerDivision  integerDivision = new IntegerDivision();
         ShowResult showResult = new ShowResult();
-        System.out.println(showResult.resultBuilder());
-
-
+        System.out.println(showResult.resultBuilder(integerDivision, 480506, 56));
     }
 }

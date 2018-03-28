@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowResult {
-    private IntegerDivision integerDivision = new IntegerDivision();
+//    private IntegerDivision integerDivision = new IntegerDivision();
 
-    public String resultBuilder() {
+    public String resultBuilder(IntegerDivision integerDivision, int argDivident, int argDivisor) {
+
         String result;
         StringBuilder firstStringSb = new StringBuilder();
         integerDivision.init();
-        integerDivision.longDivision(2540075, 54);
+        integerDivision.longDivision(argDivident, argDivisor);
 
         //building string #1
         String first;
@@ -66,8 +67,6 @@ public class ShowResult {
         sbThree.append(integerDivision.getActualQuotient());
 
 
-
-
 //        //building other strings
         String[] strings = new String[integerDivision.getActualQuotientList().size()];//5
         String res = "";
@@ -84,23 +83,25 @@ public class ShowResult {
 
         int currentSubDividend = integerDivision.getSubdividendList().get(0);
         int currentSubtrahend = integerDivision.getSubtrahendList().get(0);
-        int currentRemainder = currentSubDividend-currentSubtrahend;
+        int currentRemainder = currentSubDividend - currentSubtrahend;
         int currentSubDividendLength = Integer.toString(currentSubDividend).length();
+        boolean notEmpty = false;
         for (int i = 0; i < strings.length - 1; i++) {
-
-            currentSubDividend = currentRemainder*10+integerDivision.getDividendList().get(i+currentSubDividendLength);
-            currentSubtrahend = (currentSubDividend/integerDivision.getDivisor())*integerDivision.getDivisor();
-            currentRemainder = currentSubDividend%integerDivision.getDivisor();
-
-
             String summary = "";
             String subStringOne = justWhitespaces;
-            //construct substring #1
             StringBuilder substringOneSb = new StringBuilder(subStringOne);
-            if (currentSubDividend<=integerDivision.getDivisor()){
-                continue;
-            }else{
-                substringOneSb.insert(i+1,"_"+currentSubDividend);
+
+            currentSubDividend = currentRemainder * 10 + integerDivision.getDividendList().get(i + currentSubDividendLength);
+            currentSubtrahend = (currentSubDividend / integerDivision.getDivisor()) * integerDivision.getDivisor();
+            currentRemainder = currentSubDividend % integerDivision.getDivisor();
+
+            if (currentSubDividend < integerDivision.getDivisor() || currentSubDividend / currentSubtrahend == 0) {
+                notEmpty = false;
+
+            } else {
+                notEmpty = true;
+                //construct substring #1
+                substringOneSb.insert(i + 1, "_" + currentSubDividend);
             }
 
             //construct substring #2
@@ -110,21 +111,24 @@ public class ShowResult {
             //construct substring #3
             StringBuilder substringThreeSb = new StringBuilder(subStringOne);
             StringBuilder dashes = new StringBuilder();
-            for (int j = 0; j < integerDivision.getSubDividendListToPrint().get(i).toString().length(); j++) {
+            for (int j = 0; j < Integer.toString(currentSubtrahend).length(); j++) {
                 dashes.append("-");
 
             }
             substringThreeSb.insert(i + 2, "" + dashes.toString());
-            String subSOne = substringOneSb.substring(0, integerDivision.getDividendList().size()+1);
-            String subSTwo =  substringTwoSb.substring(0, integerDivision.getDividendList().size()+1);;
-            String subThree =  substringThreeSb.substring(0, integerDivision.getDividendList().size()+1);;
+            String subSOne = substringOneSb.substring(0, integerDivision.getDividendList().size() + 1);
+            String subSTwo = substringTwoSb.substring(0, integerDivision.getDividendList().size() + 1);
+            ;
+            String subThree = substringThreeSb.substring(0, integerDivision.getDividendList().size() + 1);
+            ;
 
             summary = subSOne + "\n" + subSTwo + "\n" + subThree;
             strings[i] = summary;
+            if (notEmpty) {
+                res += strings[i] + "\n";
+            }
         }
-        for (int i = 0; i < strings.length - 1; i++) {
-            res += strings[i] + "\n";
-        }
+
         other = res;
 
 
@@ -139,13 +143,13 @@ public class ShowResult {
             indivisibleRemainderString += String.valueOf(c);
         }
         StringBuilder indivisibleRemainderBuilder = new StringBuilder(indivisibleRemainderString);
-        indivisibleRemainderBuilder.insert(indivisibleRemainderString.length() -
+        indivisibleRemainderBuilder.insert(Integer.toString(integerDivision.getDividend()).length()+1 -
                 integerDivision.getIndivisibleRemainderLength(), integerDivision.getIndivisibleRemainder());
 
         first = firstStringSb.toString();
         second = secondStringSb.toString();
         third = sbThree.toString();
-        lastString = indivisibleRemainderBuilder.toString().substring(0, integerDivision.getDividendList().size()+1);
+        lastString = indivisibleRemainderBuilder.toString().substring(0, integerDivision.getDividendList().size() + 1);
 
         result = first + "\n" + second + "\n" + third + "\n" + other + lastString;
         return result;
