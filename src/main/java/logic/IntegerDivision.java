@@ -1,14 +1,12 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class IntegerDivision {
     private int dividend;
     private int divisor;
     private int quotient;
-    private int result;
     private int remainder = 0;
     private int actualQuotient;
     private int subDividend = 0;
@@ -17,6 +15,8 @@ public class IntegerDivision {
     private int subtrahend;
     private int indivisibleRemainder;
     private int indivisibleRemainderLength;
+    private boolean isDividendIsNegative;
+    private boolean isDivisorIsNegative;
 
     private StringBuilder sb;
 
@@ -30,16 +30,18 @@ public class IntegerDivision {
     private List<Integer> subtrahendListToPrint;
     private List<Integer> indivisibleRemainderLengthList;
 
-    public void init() {
-
-
-        quotient = actualQuotient;
-    }
 
     public void longDivision(int aDividend, int aDivisor) {
-//        init();
         this.dividend = aDividend;
         this.divisor = aDivisor;
+        if (aDividend < 0) {
+            isDividendIsNegative = true;
+            dividend *= -1;
+        }
+        if (aDivisor < 0) {
+            isDivisorIsNegative = true;
+            divisor *= -1;
+        }
         subtrahendListToPrint = new ArrayList<Integer>();
         subDividendListToPrint = new ArrayList<Integer>();
         sb = new StringBuilder();
@@ -58,11 +60,11 @@ public class IntegerDivision {
         for (int i = 0; i < dividendList.size(); ) {
             if (subDividend < divisor) {
                 subDividend = subDividend * 10 + dividendList.get(i);
-                if (subDividend / divisor > 0||subDividend==0) {
+                if (subDividend / divisor > 0 || subDividend == 0) {
                     subDividendListToPrint.add(subDividend);
                 }
             }
-            if (subDividend/divisor>0) {
+            if (subDividend / divisor > 0) {
                 subdividendList.add(subDividend);
             }
             partOfQuotient = subDividend / divisor;
@@ -70,19 +72,17 @@ public class IntegerDivision {
             remainder = subDividend % divisor;
             remainderList.add(remainder);
             subtrahend = partOfQuotient * divisor;
-            if (subDividend/divisor>0) {
+            if (subDividend / divisor > 0) {
                 subtrahendList.add(subtrahend);
             }
 
-                subtrahendListToPrint.add(subtrahend);
+            subtrahendListToPrint.add(subtrahend);
 
 
             subDividend = remainder;
             sb.append(partOfQuotient);
             i++;
-
         }
-
     }
 
     private List<Integer> fromIntToList(Integer i) {
@@ -91,17 +91,17 @@ public class IntegerDivision {
         for (char anIntCharArray : intCharArray) {
             integers.add(Integer.parseInt(String.valueOf(anIntCharArray)));
         }
-
         return integers;
     }
 
-    public List<Integer> getSubtrahendListToPrint() {
-        return subtrahendListToPrint;
+    public boolean isDividendIsNegative() {
+        return isDividendIsNegative;
     }
 
-    public int getQuotient() {
-        return quotient;
+    public boolean isDivisorIsNegative() {
+        return isDivisorIsNegative;
     }
+
 
     public int getIndivisibleRemainderLength() {
         return indivisibleRemainderLength;
