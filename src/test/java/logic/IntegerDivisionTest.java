@@ -14,4 +14,9 @@ public class IntegerDivisionTest {
     public void divisionByZeroTest(){
         integerDivision.longDivision(234, 0);
     }
+    @Test
+    public void correctAnswerTest(){
+        int expected = 205;
+        assertEquals(expected, integerDivision.longDivision(6563, 32));
+    }
 }
