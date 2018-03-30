@@ -68,6 +68,10 @@ public class ShowResult {
         String thirdLine;
         StringBuilder thirdLineSb = new StringBuilder();
         thirdLineSb.append(" ");
+        if (Integer.toString(integerDivision.getSubtrahendList().get(0)).length()<
+                Integer.toString(integerDivision.getSubdividendList().get(0)).length()){
+            thirdLineSb.append(" ");
+        }
         if (integerDivision.isDividendIsNegative()){
             thirdLineSb.append(" ");
         }
@@ -92,8 +96,8 @@ public class ShowResult {
         for (int i = 0; i < chars.length; i++) {
             chars[i] = ' ';
         }
-
         StringBuilder whitespacesSb = new StringBuilder();
+
         for (int i = 0; i < chars.length; i++) {
             whitespacesSb.append(String.valueOf(chars[i]));
         }
@@ -103,16 +107,37 @@ public class ShowResult {
         int currentSubtrahend = integerDivision.getSubtrahendList().get(0);
         int currentRemainder = currentSubDividend - currentSubtrahend;
         int currentSubDividendLength = Integer.toString(currentSubDividend).length();
+
         boolean notEmpty = false;
+        boolean breakthrough = false;
+        int additionOffset = 0;
+        if (Integer.toString(currentRemainder).length()<Integer.toString(currentSubtrahend).length()) {
+            additionOffset++;
+        }
         for (int i = 0; i < strings.length - 1; i++) {
             String summary = "";
             String subStringOne = justWhitespaces;
             StringBuilder substringOneSb = new StringBuilder(subStringOne);
-            int additionOffset = Integer.toString(currentSubtrahend).length() -
-                    (Integer.toString(currentSubDividend-currentSubtrahend).length());
+
+            additionOffset += Integer.toString(currentSubtrahend).length()
+                    - (Integer.toString(currentSubtrahend).length()
+                    -(Integer.toString(currentSubDividend).length()
+                    -Integer.toString(currentSubtrahend).length()));
+
+            if (currentRemainder==0){
+                additionOffset++;
+            }
+
             currentSubDividend = currentRemainder * 10 + integerDivision.getDividendList().get(i + currentSubDividendLength);
             currentSubtrahend = (currentSubDividend / integerDivision.getDivisor()) * integerDivision.getDivisor();
             currentRemainder = currentSubDividend % integerDivision.getDivisor();
+
+            if (breakthrough&&additionOffset!=0){
+                additionOffset--;
+            }
+            if  (currentSubDividend/integerDivision.getDivisor()==0&&additionOffset!=0){
+                additionOffset--;
+            }
 
             if (currentSubDividend < integerDivision.getDivisor() || currentSubDividend / currentSubtrahend == 0) {
                 notEmpty = false;
@@ -125,11 +150,7 @@ public class ShowResult {
 
             //construct substring #2
             StringBuilder substringTwoSb = new StringBuilder(subStringOne);
-//            if (Integer.toString(currentSubDividend).length()>
-//                    Integer.toString(currentSubtrahend).length()){
-//                substringTwoSb.insert(i + 3, "" + currentSubtrahend);
-//            }else {
-                substringTwoSb.insert(i + 1+ additionOffset, "" + currentSubtrahend);
+            substringTwoSb.insert(i + 1+ additionOffset, "" + currentSubtrahend);
 
 
             //construct substring #3
@@ -158,6 +179,8 @@ public class ShowResult {
             strings[i] = summary;
             if (notEmpty) {
                 res += strings[i] + "\n";
+            }else{
+                breakthrough = true;
             }
         }
 
