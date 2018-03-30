@@ -31,7 +31,8 @@ public class IntegerDivision {
     private List<Integer> indivisibleRemainderLengthList;
 
 
-    public void longDivision(int aDividend, int aDivisor) {
+    public int longDivision(int aDividend, int aDivisor) {
+        int result;
         this.dividend = aDividend;
         this.divisor = aDivisor;
         if (aDividend < 0) {
@@ -83,6 +84,8 @@ public class IntegerDivision {
             sb.append(partOfQuotient);
             i++;
         }
+        result = actualQuotient;
+        return result;
     }
 
     private List<Integer> fromIntToList(Integer i) {
