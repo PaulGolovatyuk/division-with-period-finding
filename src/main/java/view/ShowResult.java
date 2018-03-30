@@ -7,8 +7,23 @@ import java.util.List;
 
 public class ShowResult {
 
-    public String resultBuilder(IntegerDivision integerDivision, int argDivident, int argDivisor) {
-        integerDivision.longDivision(argDivident, argDivisor);
+    public String resultBuilder(IntegerDivision integerDivision, int argDividend, int argDivisor) {
+
+        //if dividend is zero:
+        StringBuilder dashesSb = new StringBuilder();
+        for (int i = 0; i <Integer.toString(argDivisor).length() ; i++) {
+            dashesSb.append("-");
+        }
+        final String ifDividendIsZero =   "0|"+argDivisor+"\n"+
+                                    " |"+dashesSb.toString()+"\n"+
+                                    " |0";
+        if (argDividend==0){
+            return ifDividendIsZero;
+        }
+
+
+
+        integerDivision.longDivision(argDividend, argDivisor);
         String result;
         StringBuilder firstStringSb = new StringBuilder();
 
@@ -22,7 +37,7 @@ public class ShowResult {
         }
         firstStringList.add(String.valueOf(integerDivision.getDividend()));
         firstStringList.add("|");
-        if (integerDivision.isDivisorIsNegative()||integerDivision.isDividendIsNegative()){
+        if (integerDivision.isDivisorIsNegative()){
             firstStringList.add("-");
         }
         firstStringList.add(String.valueOf(integerDivision.getDivisor()));
@@ -41,18 +56,23 @@ public class ShowResult {
             secondLineSb.append(" ");
         }
         int numberOfWhitespacesInSecondLine;
+        boolean firstSubtrahendLessThanSubdividend = false;
         if (integerDivision.getSubdividendList().get(0).toString().length() >
                 integerDivision.getSubtrahendList().get(0).toString().length()) {
             secondLineSb.append(" ");
+            firstSubtrahendLessThanSubdividend = true;
         }
         secondLineList.add(integerDivision.getSubtrahendList().get(0).toString());
         for (String s : secondLineList) {
             secondLineSb.append(s);
         }
-        numberOfWhitespacesInSecondLine = integerDivision.getDividendList().size() -
+        numberOfWhitespacesInSecondLine = integerDivision.getDividendList().size()-
                 integerDivision.getSubtrahendList().get(0).toString().length();
         for (int i = 0; i < numberOfWhitespacesInSecondLine; i++) {
             secondLineSb.append(" ");
+        }
+        if (firstSubtrahendLessThanSubdividend){
+            secondLineSb.delete(secondLineSb.length()-1, secondLineSb.length());
         }
         secondLineSb.append("|");
         for (int i = 0; i < integerDivision.getActualQuotientList().size(); i++) {
@@ -80,6 +100,9 @@ public class ShowResult {
         }
         for (int i = 0; i < numberOfWhitespacesInSecondLine; i++) {
             thirdLineSb.append(" ");
+        }
+        if (firstSubtrahendLessThanSubdividend){
+            thirdLineSb.delete(thirdLineSb.length()-1,thirdLineSb.length());
         }
         thirdLineSb.append("|");
         if (integerDivision.isDividendIsNegative()^integerDivision.isDivisorIsNegative()){
