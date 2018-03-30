@@ -4,10 +4,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IntegerDivisionTest {
-    IntegerDivision integerDivision = new IntegerDivision();
+    private IntegerDivision integerDivision = new IntegerDivision();
 
     @Test
     public void notNullTest(){
-        assertNotNull(integerDivision.longDivision(345, 45));
+        integerDivision.longDivision(345, 45);
+    }
+    @Test(expected = ArithmeticException.class)
+    public void divisionByZeroTest(){
+        integerDivision.longDivision(234, 0);
     }
 }
