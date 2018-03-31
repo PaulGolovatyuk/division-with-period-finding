@@ -20,7 +20,7 @@ public class ShowResultTest {
         assertEquals(expected, showResult.resultBuilder(integerDivision, 1034, 15));
     }
     @Test
-    public void outoutResultTest1(){
+    public void outputResultTest1(){
             String expected =   "_500000|3"+"\n"+
                                 " 3     |------"+"\n"+
                                 " -     |166666"+"\n"+
@@ -42,6 +42,21 @@ public class ShowResultTest {
                                 "      2";
         assertEquals(expected, showResult.resultBuilder(integerDivision, 500000, 3));
     }
+    @Test
+    public void outputResultTest2(){
+            String expected =   "_6606|6"+"\n"+
+                                " 6   |----"+"\n"+
+                                " -   |1101"+"\n"+
+                                " _6  "+"\n"+
+                                "  6  "+"\n"+
+                                "  -  "+"\n"+
+                                "   _6"+"\n"+
+                                "    6"+"\n"+
+                                "    -"+"\n"+
+                                "    0";
+        assertEquals(expected, showResult.resultBuilder(integerDivision, 6606, 6));
+    }
+
     @Test
     public void dividendIsNegativeTest(){
         String expected ="_-475|13"+"\n"+
