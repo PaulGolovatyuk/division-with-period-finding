@@ -9,7 +9,7 @@ public class ShowResultTest {
     private ShowResult showResult = new ShowResult();
 
     @Test
-    public void outputResultTest0(){
+    public void divisorLengthLessThanDividendLengthTest(){
             String expected =   "_1034|15"+"\n"+
                                 "  90 |--"+"\n"+
                                 "  -- |68"+"\n"+
@@ -17,10 +17,10 @@ public class ShowResultTest {
                                 "  120"+"\n"+
                                 "  ---"+"\n"+
                                 "   14";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, 1034, 15));
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 1034, 15));
     }
     @Test
-    public void outputResultTest1(){
+    public void dividendWithZerosTest(){
             String expected =   "_500000|3"+"\n"+
                                 " 3     |------"+"\n"+
                                 " -     |166666"+"\n"+
@@ -40,10 +40,10 @@ public class ShowResultTest {
                                 "     18"+"\n"+
                                 "     --"+"\n"+
                                 "      2";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, 500000, 3));
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 500000, 3));
     }
     @Test
-    public void outputResultTest2(){
+    public void bothOperandsArePositiveTest(){
             String expected =   "_6606|6"+"\n"+
                                 " 6   |----"+"\n"+
                                 " -   |1101"+"\n"+
@@ -54,7 +54,7 @@ public class ShowResultTest {
                                 "    6"+"\n"+
                                 "    -"+"\n"+
                                 "    0";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, 6606, 6));
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 6606, 6));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ShowResultTest {
                         "   78"+"\n"+
                         "   --"+"\n"+
                         "    7";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, -475, 13));
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, -475, 13));
     }
 
     @Test
@@ -81,18 +81,16 @@ public class ShowResultTest {
                             "  108"+"\n"+
                             "  ---"+"\n"+
                             "   16";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, 4984, -27));
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 4984, -27));
     }
     @Test
     public void dividendIsZeroTest(){
-        String expected =   "0|1028"+"\n"+
-                            " |----"+"\n"+
-                            " |0";
-        assertEquals(expected, showResult.resultBuilder(integerDivision, 0, 1028));
+        String expected =   "0";
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 0, 1028));
     }
     @Test (expected = ArithmeticException.class)
     public void divisorIsZeroTest(){
-        showResult.resultBuilder(integerDivision, 78949, 0);
+        showResult.buildOutputStringOfDivision(integerDivision, 78949, 0);
     }
 
 }

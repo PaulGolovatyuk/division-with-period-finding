@@ -14,6 +14,8 @@ public class IntegerDivision {
     private int indivisibleRemainder;
     private int indivisibleRemainderLength;
 
+
+
     private boolean isDividendIsNegative;
     private boolean isDivisorIsNegative;
 
@@ -47,6 +49,7 @@ public class IntegerDivision {
 
         //calculations
         subDividend = 0;
+
         for (int i = 0; i < dividendList.size(); ) {
             if (subDividend < divisor) {
                 subDividend = subDividend * 10 + dividendList.get(i);
