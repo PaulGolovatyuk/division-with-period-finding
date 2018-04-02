@@ -21,14 +21,10 @@ public class IntegerDivision {
     private List<Integer> subDividendList;
     private List<Integer> dividendList;
     private List<Integer> actualQuotientList;
-    private List<Integer> remainderList;
-    private List<Integer> subtrahendListToPrint;
-    private List<Integer> indivisibleRemainderLengthList;
     private StringBuilder sb;
 
 
     public int longDivision(int aDividend, int aDivisor) {
-        int result;
         this.dividend = aDividend;
         this.divisor = aDivisor;
 
@@ -41,20 +37,18 @@ public class IntegerDivision {
             divisor *= -1;
         }
         //init block
-        subtrahendListToPrint = new ArrayList<Integer>();
-
         sb = new StringBuilder();
         indivisibleRemainder = dividend % divisor;
-        indivisibleRemainderLengthList = fromIntToList(indivisibleRemainder);
-        indivisibleRemainderLength = indivisibleRemainderLengthList.size();
+        Integer indivRem = indivisibleRemainder;
+        indivisibleRemainderLength = indivRem.toString().length();
         subtrahendList = new ArrayList<Integer>();
-        remainderList = new ArrayList<Integer>();
         subDividendList = new ArrayList<Integer>();
         actualQuotient = dividend / divisor;
         dividendList = fromIntToList(dividend);
         actualQuotientList = fromIntToList(actualQuotient);
 
         //calculations
+        subDividend = 0;
         for (int i = 0; i < dividendList.size(); ) {
             if (subDividend < divisor) {
                 subDividend = subDividend * 10 + dividendList.get(i);
@@ -65,20 +59,15 @@ public class IntegerDivision {
             partOfQuotient = subDividend / divisor;
 
             remainder = subDividend % divisor;
-            remainderList.add(remainder);
             subtrahend = partOfQuotient * divisor;
             if (subDividend / divisor > 0) {
                 subtrahendList.add(subtrahend);
             }
-            subtrahendListToPrint.add(subtrahend);
-
-
             subDividend = remainder;
             sb.append(partOfQuotient);
             i++;
         }
-        result = actualQuotient;
-        return result;
+        return  dividend/divisor;
     }
 
     private List<Integer> fromIntToList(Integer i) {

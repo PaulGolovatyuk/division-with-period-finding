@@ -81,7 +81,7 @@ public class ShowResult {
         }
 
         //building line #3
-        String otherLines = "";
+        String otherLines;
         String thirdLine;
         StringBuilder thirdLineSb = new StringBuilder();
         thirdLineSb.append(" ");
@@ -109,15 +109,15 @@ public class ShowResult {
 
 
 //        //building other lines
-        int lengthOfDividentInOutput = integerDivision.getDividendList().size() + 1;
+        int lengthOfDividendInOutput = integerDivision.getDividendList().size() + 1;
         String res = "";
-        String [] strings = new String[integerDivision.getActualQuotientList().size()];
-        char[] chars = new char[lengthOfDividentInOutput];
+        String [] otherLinesBlocksArray = new String[integerDivision.getActualQuotientList().size()];
+        char[] componentBlocksArray = new char[lengthOfDividendInOutput];
         StringBuilder whitespacesSb = new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
-            chars[i] = ' ';
+        for (int i = 0; i < componentBlocksArray.length; i++) {
+            componentBlocksArray[i] = ' ';
         }
-        for (char aChar : chars) {
+        for (char aChar : componentBlocksArray) {
             whitespacesSb.append(String.valueOf(aChar));
         }
         String justWhitespaces = whitespacesSb.toString();
@@ -127,15 +127,21 @@ public class ShowResult {
         int currentRemainder = currentSubDividend - currentSubtrahend;
         int currentSubDividendLength = Integer.toString(currentSubDividend).length();
 
-        boolean notEmpty = false;
+        boolean notEmpty;
         boolean breakthrough = false;
         int additionOffset = 0;
         if (Integer.toString(currentRemainder).length()<Integer.toString(currentSubtrahend).length()) {
             additionOffset++;
         }
-        for (int i = 0; i < strings.length - 1; i++) {
-            String summary = "";
+        for (int i = 0; i < otherLinesBlocksArray.length - 1; i++) {
+            String summary;
             StringBuilder substringOneSb = new StringBuilder(justWhitespaces);
+
+
+            if (i>0&&currentRemainder>0&&Integer.toString(currentRemainder).length()==
+                    Integer.toString(currentSubtrahend).length()){
+                additionOffset = 0;
+            }
 
             additionOffset += Integer.toString(currentSubtrahend).length()
                     - (Integer.toString(currentSubtrahend).length()
@@ -162,6 +168,7 @@ public class ShowResult {
 
             } else {
                 notEmpty = true;
+
                 //construct substring #1
                 substringOneSb.insert(i + additionOffset , "_" + currentSubDividend);
             }
@@ -173,7 +180,6 @@ public class ShowResult {
             //construct substring #3
             StringBuilder substringThreeSb = new StringBuilder(justWhitespaces);
             StringBuilder dashes = new StringBuilder();
-
             for (int j = 0; j < Integer.toString(currentSubtrahend).length(); j++) {
                 dashes.append("-");
             }
@@ -184,18 +190,18 @@ public class ShowResult {
                 substringThreeSb.insert(i + 1+additionOffset, "" + dashes.toString());
             }
             //fitting to required length
-            String subSOne = substringOneSb.substring(0, lengthOfDividentInOutput);
-            String subSTwo = substringTwoSb.substring(0, lengthOfDividentInOutput);
-            String subThree = substringThreeSb.substring(0, lengthOfDividentInOutput);
+            String subSOne = substringOneSb.substring(0, lengthOfDividendInOutput);
+            String subSTwo = substringTwoSb.substring(0, lengthOfDividendInOutput);
+            String subThree = substringThreeSb.substring(0, lengthOfDividendInOutput);
 
             if (integerDivision.isDividendIsNegative()){
                 summary = " "+subSOne + "\n"+" " + subSTwo + "\n" +" "+ subThree;
             }else {
                 summary = subSOne + "\n" + subSTwo + "\n" + subThree;
             }
-            strings[i] = summary;
+            otherLinesBlocksArray[i] = summary;
             if (notEmpty) {
-                res += strings[i] + "\n";
+                res += otherLinesBlocksArray[i] + "\n";
             }else{
                 breakthrough = true;
             }
@@ -206,10 +212,10 @@ public class ShowResult {
         // building last line
         int indivRemainder = integerDivision.getIndivisibleRemainder();
         int indivRemainderLength = integerDivision.getIndivisibleRemainderLength();
-        String lastString = "";
+        String lastString;
         String indivisibleRemainderString = "";
-        char[] lastLineCharsArray = new char[lengthOfDividentInOutput];
-        for (int i = 0; i < chars.length; i++) {
+        char[] lastLineCharsArray = new char[lengthOfDividendInOutput];
+        for (int i = 0; i < componentBlocksArray.length; i++) {
             lastLineCharsArray[i] = ' ';
         }
         for (char c : lastLineCharsArray) {
@@ -217,10 +223,10 @@ public class ShowResult {
         }
         StringBuilder indivisibleRemainderBuilder = new StringBuilder(indivisibleRemainderString);
         if (integerDivision.isDividendIsNegative()){
-            indivisibleRemainderBuilder.insert(lengthOfDividentInOutput+1 -
+            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput+1 -
                     indivRemainderLength, indivRemainder);
         }else {
-            indivisibleRemainderBuilder.insert(lengthOfDividentInOutput -
+            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput -
                     indivRemainderLength, indivRemainder);
         }
 
@@ -228,10 +234,10 @@ public class ShowResult {
         secondLine = secondLineSb.toString();
         thirdLine = thirdLineSb.toString();
         if (integerDivision.isDividendIsNegative()){
-            lastString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividentInOutput+1);
+            lastString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput+1);
 
         }else {
-            lastString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividentInOutput);
+            lastString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput);
         }
 
         result = firstLine + "\n" + secondLine + "\n" + thirdLine + "\n" + otherLines + lastString;
