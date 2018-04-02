@@ -21,7 +21,6 @@ public class IntegerDivision {
     private List<Integer> subDividendList;
     private List<Integer> dividendList;
     private List<Integer> actualQuotientList;
-    private StringBuilder sb;
 
 
     public int longDivision(int aDividend, int aDivisor) {
@@ -37,7 +36,6 @@ public class IntegerDivision {
             divisor *= -1;
         }
         //init block
-        sb = new StringBuilder();
         indivisibleRemainder = dividend % divisor;
         Integer indivRem = indivisibleRemainder;
         indivisibleRemainderLength = indivRem.toString().length();
@@ -64,7 +62,6 @@ public class IntegerDivision {
                 subtrahendList.add(subtrahend);
             }
             subDividend = remainder;
-            sb.append(partOfQuotient);
             i++;
         }
         return  dividend/divisor;
