@@ -44,7 +44,7 @@ public class ShowResult {
         List<String> secondLineList = new ArrayList<String>();////??????
         int firstSubDividend = integerDivision.getSubDividendList().get(0);
         int firstSubtrahend = integerDivision.getSubtrahendList().get(0);
-        secondLineList.add(" ");
+        secondLineSb.append(" ");
         if (integerDivision.isDividendIsNegative()){
             secondLineSb.append(" ");
         }
@@ -55,10 +55,8 @@ public class ShowResult {
             secondLineSb.append(" ");
             firstSubtrahendLessThanSubDividend = true;
         }
-        secondLineList.add(Integer.toString(firstSubtrahend));
-        for (String s : secondLineList) {
-            secondLineSb.append(s);
-        }
+
+        secondLineSb.append(firstSubtrahend);
         numberOfWhitespacesInSecondLine = integerDivision.getDividendList().size()-
                 Integer.toString(firstSubtrahend).length();
         for (int i = 0; i < numberOfWhitespacesInSecondLine; i++) {
@@ -122,6 +120,7 @@ public class ShowResult {
         boolean notEmpty;
         boolean breakthrough = false;
         int additionOffset = 0;
+        List <Integer> dividentList = integerDivision.getDividendList();
         if (Integer.toString(currentRemainder).length()<Integer.toString(currentSubtrahend).length()) {
             additionOffset++;
         }
@@ -144,7 +143,8 @@ public class ShowResult {
                 additionOffset++;
             }
 
-            currentSubDividend = currentRemainder * 10 + integerDivision.getDividendList().get(i + currentSubDividendLength);
+
+            currentSubDividend = currentRemainder * 10 + dividentList.get(i + currentSubDividendLength);
             currentSubtrahend = (currentSubDividend / integerDivision.getDivisor()) * integerDivision.getDivisor();
             currentRemainder = currentSubDividend % integerDivision.getDivisor();
 
@@ -177,9 +177,9 @@ public class ShowResult {
             }
             if (Integer.toString(currentSubDividend).length()>
                     Integer.toString(currentSubtrahend).length()){
-                substringThreeSb.insert(i + 3, "" + dashes.toString());
+                substringThreeSb.insert(i + 3, "" + dashes);
             }else {
-                substringThreeSb.insert(i + 1+additionOffset, "" + dashes.toString());
+                substringThreeSb.insert(i + 1+additionOffset, ""+dashes);
             }
             //fitting to required length
             String subSOne = substringOneSb.substring(0, lengthOfDividendInOutput);
