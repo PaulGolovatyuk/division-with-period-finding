@@ -13,21 +13,19 @@ public class IntegerDivision {
     private int subtrahend;
     private int indivisibleRemainder;
     private int indivisibleRemainderLength;
-    int firstSubdividend;
-    int firstSubtrahend;
-    boolean firstSubDivAssigned = false;
-    boolean firstSubtrahendAssigned = false;
-
+    private int firstSubdividend;
+    private int firstSubtrahend;
 
     private boolean isDividendIsNegative;
     private boolean isDivisorIsNegative;
-
 
     private List<Integer> dividendList;
     private List<Integer> actualQuotientList;
 
 
     public int longDivision(int aDividend, int aDivisor) {
+        boolean firstSubDivAssigned = false;
+        boolean firstSubtrahendAssigned = false;
         this.dividend = aDividend;
         this.divisor = aDivisor;
 
@@ -39,18 +37,19 @@ public class IntegerDivision {
             isDivisorIsNegative = true;
             divisor *= -1;
         }
-        //init block
 
+        //init block
         indivisibleRemainder = dividend % divisor;
         Integer indivRem = indivisibleRemainder;
         indivisibleRemainderLength = indivRem.toString().length();
         actualQuotient = dividend / divisor;
         dividendList = fromIntToList(dividend);
         actualQuotientList = fromIntToList(actualQuotient);
+        firstSubdividend = 0;
+        firstSubtrahend = 0;
 
         //calculations
         subDividend = 0;
-
         for (Integer aDividendList : dividendList) {
             if (subDividend < divisor) {
                 subDividend = subDividend * 10 + aDividendList;
@@ -70,7 +69,8 @@ public class IntegerDivision {
             subDividend = remainder;
 
         }
-        return dividend / divisor;
+
+        return  dividend/divisor;
     }
 
     private List<Integer> fromIntToList(Integer i) {
@@ -85,39 +85,30 @@ public class IntegerDivision {
     public boolean isDividendIsNegative() {
         return isDividendIsNegative;
     }
-
     public boolean isDivisorIsNegative() {
         return isDivisorIsNegative;
     }
-
     public int getIndivisibleRemainderLength() {
         return indivisibleRemainderLength;
     }
-
     public int getIndivisibleRemainder() {
         return indivisibleRemainder;
     }
-
     public List<Integer> getActualQuotientList() {
         return actualQuotientList;
     }
-
     public List<Integer> getDividendList() {
         return dividendList;
     }
-
     public int getDividend() {
         return dividend;
     }
-
     public int getDivisor() {
         return divisor;
     }
-
     public int getActualQuotient() {
         return actualQuotient;
     }
-
     public int getFirstSubdividend() {
         return firstSubdividend;
     }
@@ -125,7 +116,7 @@ public class IntegerDivision {
     public int getFirstSubtrahend() {
         return firstSubtrahend;
     }
-    
+
 }
 
 

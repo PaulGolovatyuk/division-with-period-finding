@@ -2,7 +2,6 @@ package view;
 
 import logic.IntegerDivision;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,13 +118,14 @@ public class ShowResult {
         boolean notEmpty;
         boolean breakthrough = false;
         int additionOffset = 0;
-        List<Integer> dividentList = integerDivision.getDividendList();
+
         if (Integer.toString(currentRemainder).length() < Integer.toString(currentSubtrahend).length()) {
             additionOffset++;
         }
         for (int i = 0; i < otherLinesBlocksArray.length - 1; i++) {
             String summary;
             StringBuilder substringOneSb = new StringBuilder(justWhitespaces);
+            List<Integer> dividentList = integerDivision.getDividendList();
 
 
             if (i > 0 && currentRemainder > 0 && Integer.toString(currentRemainder).length() ==
