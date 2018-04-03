@@ -85,7 +85,9 @@ public class ShowResultTest {
     }
     @Test
     public void dividendIsZeroTest(){
-        String expected =   "0";
+        String expected =   "0|"+1028+"\n"+
+                            " |----"+"\n"+
+                            " |0";
         assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 0, 1028));
     }
     @Test (expected = ArithmeticException.class)

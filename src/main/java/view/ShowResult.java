@@ -11,7 +11,14 @@ public class ShowResult {
     public String buildOutputStringOfDivision(IntegerDivision integerDivision, int argDividend, int argDivisor) {
 
         //if dividend is zero:
-        final String zeroDividendString = "0";
+        StringBuilder dashesSb = new StringBuilder();
+        for (int i = 0; i < Integer.toString(argDivisor).length(); i++) {
+            dashesSb.append("-");
+        }
+        final String zeroDividendString =   "0|"+argDivisor+"\n"+
+                                            " |"+ dashesSb+"\n"+
+                                            " |0";
+
         if (argDividend == 0) {
             return zeroDividendString;
         }
