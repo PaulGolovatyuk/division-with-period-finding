@@ -13,14 +13,16 @@ public class IntegerDivision {
     private int subtrahend;
     private int indivisibleRemainder;
     private int indivisibleRemainderLength;
-
+    int firstSubdividend;
+    int firstSubtrahend;
+    boolean firstSubDivAssigned = false;
+    boolean firstSubtrahendAssigned = false;
 
 
     private boolean isDividendIsNegative;
     private boolean isDivisorIsNegative;
 
-    private List<Integer> subtrahendList;
-    private List<Integer> subDividendList;
+
     private List<Integer> dividendList;
     private List<Integer> actualQuotientList;
 
@@ -38,11 +40,10 @@ public class IntegerDivision {
             divisor *= -1;
         }
         //init block
+
         indivisibleRemainder = dividend % divisor;
         Integer indivRem = indivisibleRemainder;
         indivisibleRemainderLength = indivRem.toString().length();
-        subtrahendList = new ArrayList<Integer>();
-        subDividendList = new ArrayList<Integer>();
         actualQuotient = dividend / divisor;
         dividendList = fromIntToList(dividend);
         actualQuotientList = fromIntToList(actualQuotient);
@@ -50,24 +51,26 @@ public class IntegerDivision {
         //calculations
         subDividend = 0;
 
-        for (int i = 0; i < dividendList.size(); ) {
+        for (Integer aDividendList : dividendList) {
             if (subDividend < divisor) {
-                subDividend = subDividend * 10 + dividendList.get(i);
+                subDividend = subDividend * 10 + aDividendList;
             }
-            if (subDividend / divisor > 0) {
-                subDividendList.add(subDividend);
+            if (subDividend / divisor > 0 && !firstSubDivAssigned) {
+                firstSubdividend = subDividend;
+                firstSubDivAssigned = true;
             }
             partOfQuotient = subDividend / divisor;
 
             remainder = subDividend % divisor;
             subtrahend = partOfQuotient * divisor;
-            if (subDividend / divisor > 0) {
-                subtrahendList.add(subtrahend);
+            if (subDividend / divisor > 0 && !firstSubtrahendAssigned) {
+                firstSubtrahend = subtrahend;
+                firstSubtrahendAssigned = true;
             }
             subDividend = remainder;
-            i++;
+
         }
-        return  dividend/divisor;
+        return dividend / divisor;
     }
 
     private List<Integer> fromIntToList(Integer i) {
@@ -82,36 +85,47 @@ public class IntegerDivision {
     public boolean isDividendIsNegative() {
         return isDividendIsNegative;
     }
+
     public boolean isDivisorIsNegative() {
         return isDivisorIsNegative;
     }
+
     public int getIndivisibleRemainderLength() {
         return indivisibleRemainderLength;
     }
+
     public int getIndivisibleRemainder() {
         return indivisibleRemainder;
     }
+
     public List<Integer> getActualQuotientList() {
         return actualQuotientList;
     }
+
     public List<Integer> getDividendList() {
         return dividendList;
     }
+
     public int getDividend() {
         return dividend;
     }
+
     public int getDivisor() {
         return divisor;
     }
+
     public int getActualQuotient() {
         return actualQuotient;
     }
-    public List<Integer> getSubtrahendList() {
-        return subtrahendList;
+
+    public int getFirstSubdividend() {
+        return firstSubdividend;
     }
-    public List<Integer> getSubDividendList() {
-        return subDividendList;
+
+    public int getFirstSubtrahend() {
+        return firstSubtrahend;
     }
+    
 }
 
 
