@@ -1,6 +1,6 @@
 package view;
 
-import logic.IntegerDivision;
+import logic.DivisionWithPeriodFinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ShowResult {
 
-    public String buildOutputStringOfDivision(IntegerDivision integerDivision, int argDividend, int argDivisor) {
+    public String buildOutputStringOfDivision(DivisionWithPeriodFinding integerDivision, int argDividend, int argDivisor) {
 
         //if dividend is zero:
         StringBuilder dashesSb = new StringBuilder();

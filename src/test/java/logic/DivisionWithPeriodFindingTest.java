@@ -3,8 +3,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class IntegerDivisionTest {
-    private IntegerDivision integerDivision = new IntegerDivision();
+public class DivisionWithPeriodFindingTest {
+    private DivisionWithPeriodFinding integerDivision = new DivisionWithPeriodFinding();
 
     @Test
     public void notNullTest(){

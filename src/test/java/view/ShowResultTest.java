@@ -1,11 +1,11 @@
 package view;
 
-import logic.IntegerDivision;
+import logic.DivisionWithPeriodFinding;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ShowResultTest {
-    private IntegerDivision integerDivision = new IntegerDivision();
+    private DivisionWithPeriodFinding integerDivision = new DivisionWithPeriodFinding();
     private ShowResult showResult = new ShowResult();
 
     @Test

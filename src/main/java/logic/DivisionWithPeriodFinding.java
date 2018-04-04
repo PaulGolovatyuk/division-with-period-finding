@@ -3,7 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntegerDivision {
+public class DivisionWithPeriodFinding {
     private int dividend;
     private int divisor;
     private int remainder;
