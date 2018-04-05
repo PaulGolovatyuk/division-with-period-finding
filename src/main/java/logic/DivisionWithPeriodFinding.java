@@ -1,5 +1,7 @@
 package logic;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ public class DivisionWithPeriodFinding {
     private int indivisibleRemainderLength;
     private int firstSubdividend;
     private int firstSubtrahend;
+    private int lastDividendBeforeComma;
+    private int lastSubtrahendBeforeComma;
 
     private boolean isDividendIsNegative;
     private boolean isDivisorIsNegative;
@@ -48,11 +52,13 @@ public class DivisionWithPeriodFinding {
         firstSubdividend = 0;
         firstSubtrahend = 0;
 
+
         //calculations
         subDividend = 0;
-        for (Integer aDividendList : dividendList) {
+        boolean integerPartIsCalculated = false;
+        for (int i = 0; i <dividendList.size() ; ) {
             if (subDividend < divisor) {
-                subDividend = subDividend * 10 + aDividendList;
+                subDividend = subDividend * 10 + dividendList.get(i);
             }
             if (subDividend / divisor > 0 && !firstSubDivAssigned) {
                 firstSubdividend = subDividend;
@@ -63,14 +69,47 @@ public class DivisionWithPeriodFinding {
             remainder = subDividend % divisor;
             subtrahend = partOfQuotient * divisor;
             if (subDividend / divisor > 0 && !firstSubtrahendAssigned) {
-                firstSubtrahend = subtrahend;
+                if (!integerPartIsCalculated) {
+                    firstSubtrahend = subtrahend;
+                }
                 firstSubtrahendAssigned = true;
             }
             subDividend = remainder;
-
+            //////////////////////////////////////////////////
+            i++;
+            if (i == dividendList.size()-1){
+                integerPartIsCalculated = true;
+                lastDividendBeforeComma = subDividend;
+                lastSubtrahendBeforeComma = subtrahend;
+            }
+            if (indivisibleRemainder != 0&&integerPartIsCalculated) {
+                while (indivisibleRemainder / divisor == 0) {
+                    indivisibleRemainder *= 10;
+                    dividendList.add(0);
+                }
+                subDividend = indivisibleRemainder;
+            }
         }
 
+
         return  dividend/divisor;
+    }
+
+    public String findingPeriod(int aDividend, int aDivisor){
+        double result=0;
+        double dividend = (double) aDividend;
+        double divisor = (double) aDivisor;
+        result = dividend/divisor;
+        String s = result+"";
+        String newString = s.substring(Integer.toString(actualQuotient).length()+1);
+        char [] chars = newString.toCharArray();
+        char [] resChars = new char[10];
+        for (int i = 0; i <10 ; i++) {
+            resChars[i] =  chars[i];
+        }
+
+
+        return  newString;
     }
 
     private List<Integer> fromIntToList(Integer i) {
@@ -79,6 +118,7 @@ public class DivisionWithPeriodFinding {
         for (char anIntCharArray : intCharArray) {
             integers.add(Integer.parseInt(String.valueOf(anIntCharArray)));
         }
+
         return integers;
     }
 
@@ -117,6 +157,13 @@ public class DivisionWithPeriodFinding {
         return firstSubtrahend;
     }
 
+    public int getLastDividendBeforeComma() {
+        return lastDividendBeforeComma;
+    }
+
+    public int getLastSubtrahendBeforeComma() {
+        return lastSubtrahendBeforeComma;
+    }
 }
 
 

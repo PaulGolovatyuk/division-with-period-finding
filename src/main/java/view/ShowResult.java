@@ -22,7 +22,6 @@ public class ShowResult {
         if (argDividend == 0) {
             return zeroDividendString;
         }
-
         integerDivision.longDivision(argDividend, argDivisor);
         StringBuilder resultSb = new StringBuilder();
         resultSb.append(firstLineBuild(integerDivision, argDividend, argDivisor));
@@ -37,9 +36,6 @@ public class ShowResult {
         return resultSb.toString();
 
     }
-
-
-
 
     private String firstLineBuild(DivisionWithPeriodFinding div, int argDividend, int argDivisor) {
         //building line #1
@@ -136,10 +132,13 @@ public class ShowResult {
             thirdLineSb.append("-");
         }
         thirdLineSb.append(div.getActualQuotient());
+        if (div.getIndivisibleRemainder()!=0){
+            thirdLineSb.append(".");
+        }
         return thirdLineSb.toString();
     }
-    private String intermidediateActionsLineBuild(DivisionWithPeriodFinding div, int argDividend, int argDivisor){
-                String intermediateActionsLines;
+     String intermidediateActionsLineBuild(DivisionWithPeriodFinding div, int argDividend, int argDivisor){
+        String intermediateActionsLines;
         int lengthOfDividendInOutput = div.getDividendList().size() + 1;
         String res = "";
         String[] otherLinesBlocksArray = new String[div.getActualQuotientList().size()];
@@ -239,8 +238,7 @@ public class ShowResult {
     }
 
     private String indivisibleRemainderLineBuild(DivisionWithPeriodFinding div, int argDividend, int argDivisor){
-
-        int lengthOfDividendInOutput = div.getDividendList().size() + 1;
+        int lengthOfDividendInOutput = div.getDividendList().size() * 2;
         int indivRemainder = div.getIndivisibleRemainder();
         int indivRemainderLength = div.getIndivisibleRemainderLength();
         String indivisibleRemainderString;
@@ -248,19 +246,119 @@ public class ShowResult {
         Arrays.fill(indivisibleRemainderStringArray, ' ');
         indivisibleRemainderString = new String(indivisibleRemainderStringArray);
         StringBuilder indivisibleRemainderBuilder = new StringBuilder(indivisibleRemainderString);
-        if (div.isDividendIsNegative()) {
-            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput + 1 -
-                    indivRemainderLength, indivRemainder);
-        } else {
-            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput -
-                    indivRemainderLength, indivRemainder);
-        }
-        if (div.isDividendIsNegative()) {
-            indivisibleRemainderString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput + 1);
+        //////////////////////
+        String intermediateActionsLines;
+//        int lengthOfDividendInOutput = div.getDividendList().size()*2;
+        String res = "";
+        List <String> otherLinesBlocksList = new ArrayList<String>();
+        char[] componentBlocksArray = new char[lengthOfDividendInOutput*2];///////
+        Arrays.fill(componentBlocksArray, ' ');
+        String justWhitespaces = new String(componentBlocksArray);
 
-        } else {
-            indivisibleRemainderString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput);
+        int currentSubDividend = div.getLastDividendBeforeComma();
+        int currentSubtrahend = div.getLastSubtrahendBeforeComma();
+        int currentRemainder = currentSubDividend - currentSubtrahend;
+        int currentSubDividendLength = Integer.toString(currentSubDividend).length();
+
+        boolean notEmpty;
+        boolean breakthrough = false;
+        int additionOffset = 0;
+
+        if (Integer.toString(currentRemainder).length() < Integer.toString(currentSubtrahend).length()) {
+            additionOffset++;
         }
-        return indivisibleRemainderString;
+        for (int i = 0; i < otherLinesBlocksList.size() - 1; i++) {
+            String summary;
+            StringBuilder substringOneSb = new StringBuilder(justWhitespaces);
+            List<Integer> dividentList = div.getDividendList();
+
+
+            if (i > 0 && currentRemainder > 0 && Integer.toString(currentRemainder).length() ==
+                    Integer.toString(currentSubtrahend).length()) {
+                additionOffset = 0;
+            }
+
+            additionOffset += Integer.toString(currentSubtrahend).length()
+                    - (Integer.toString(currentSubtrahend).length()
+                    - (Integer.toString(currentSubDividend).length()
+                    - Integer.toString(currentSubtrahend).length()));
+
+            if (currentRemainder == 0) {
+                additionOffset++;
+            }
+
+
+            currentSubDividend = currentRemainder * 10 + dividentList.get(i + currentSubDividendLength);
+            currentSubtrahend = (currentSubDividend / div.getDivisor()) * div.getDivisor();
+            currentRemainder = currentSubDividend % div.getDivisor();
+
+            if (breakthrough && additionOffset != 0) {
+                additionOffset--;
+            }
+            if (currentSubDividend / div.getDivisor() == 0 && additionOffset != 0) {
+                additionOffset--;
+            }
+
+            if (currentSubDividend < div.getDivisor() || currentSubDividend / currentSubtrahend == 0) {
+                notEmpty = false;
+
+            } else {
+                notEmpty = true;
+
+                //construct substring #1
+                substringOneSb.insert(i + additionOffset, "_" + currentSubDividend);
+            }
+
+            //construct substring #2
+            StringBuilder substringTwoSb = new StringBuilder(justWhitespaces);
+            substringTwoSb.insert(i + 1 + additionOffset, "" + currentSubtrahend);
+
+            //construct substring #3
+            StringBuilder substringThreeSb = new StringBuilder(justWhitespaces);
+            StringBuilder dashes = new StringBuilder();
+            for (int j = 0; j < Integer.toString(currentSubtrahend).length(); j++) {
+                dashes.append("-");
+            }
+            if (Integer.toString(currentSubDividend).length() >
+                    Integer.toString(currentSubtrahend).length()) {
+                substringThreeSb.insert(i + 3, "" + dashes);
+            } else {
+                substringThreeSb.insert(i + 1 + additionOffset, "" + dashes);
+            }
+            //fitting to required length
+            String subSOne = substringOneSb.toString();
+            String subSTwo = substringTwoSb.toString();
+            String subThree = substringThreeSb.toString();
+
+            if (div.isDividendIsNegative()) {
+                summary = " " + subSOne + "\n" + " " + subSTwo + "\n" + " " + subThree;
+            } else {
+                summary = subSOne + "\n" + subSTwo + "\n" + subThree;
+            }
+            otherLinesBlocksList.add(summary);
+            if (notEmpty) {
+                res += otherLinesBlocksList.get(i) + "\n";
+            } else {
+                breakthrough = true;
+            }
+        }
+        intermediateActionsLines = res;
+        return intermediateActionsLines;
+        /////////////////////
+
+//        if (div.isDividendIsNegative()) {
+//            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput + 1 -
+//                    indivRemainderLength, intermidediateActionsLineBuild(div,argDividend,argDivisor));
+//        } else {
+//            indivisibleRemainderBuilder.insert(lengthOfDividendInOutput -
+//                    indivRemainderLength, intermidediateActionsLineBuild(div,argDividend,argDivisor));
+//        }
+//        if (div.isDividendIsNegative()) {
+//            indivisibleRemainderString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput + 1);
+//
+//        } else {
+//            indivisibleRemainderString = indivisibleRemainderBuilder.toString().substring(0, lengthOfDividendInOutput);
+//        }
+//        return indivisibleRemainderString;
     }
 }
