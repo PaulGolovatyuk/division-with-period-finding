@@ -96,20 +96,37 @@ public class DivisionWithPeriodFinding {
     }
 
     public String findingPeriod(int aDividend, int aDivisor){
-        double result=0;
-        double dividend = (double) aDividend;
-        double divisor = (double) aDivisor;
-        result = dividend/divisor;
-        String s = result+"";
-        String newString = s.substring(Integer.toString(actualQuotient).length()+1);
-        char [] chars = newString.toCharArray();
-        char [] resChars = new char[10];
-        for (int i = 0; i <10 ; i++) {
-            resChars[i] =  chars[i];
+        String result = null;
+        double doubleDividend = (double) aDividend;
+        double doubleDivisor = (double) aDivisor;
+        double doubleResult = doubleDividend/doubleDivisor;
+        int quotient = aDividend/aDivisor;
+        int quotientLength = Integer.toString(quotient).length();
+        char[] tenDigitsAfterCommaArray = new char[10];;
+        String digitsAfterCommaString;
+        String doubleResultString = doubleResult+"";
+        String digitsAfterCommaStr = doubleResultString.substring(quotientLength+1);
+        char [] digitsAfterCommaCharsArray = digitsAfterCommaStr.toCharArray();
+        if (digitsAfterCommaCharsArray.length>11) {
+            for (int i = 0; i < 10; i++) {
+                tenDigitsAfterCommaArray[i] = digitsAfterCommaCharsArray[i];
+            }
+            digitsAfterCommaString = new String(tenDigitsAfterCommaArray);
+        }else {
+            digitsAfterCommaString = new String(digitsAfterCommaCharsArray);
+            return digitsAfterCommaString;
         }
+        List <Integer> digitsInPeriod =new ArrayList<Integer>();
+        for (char aTenDigitsAfterCommaArray : tenDigitsAfterCommaArray) {
+            digitsInPeriod.add(Integer.parseInt(String.valueOf(aTenDigitsAfterCommaArray)));
+        }
+            StringBuilder res = new StringBuilder();
+            for (Integer integer : digitsInPeriod) {
+                res.append(integer);
+            }
+             result = res.toString();
 
-
-        return  newString;
+        return result ;
     }
 
     private List<Integer> fromIntToList(Integer i) {

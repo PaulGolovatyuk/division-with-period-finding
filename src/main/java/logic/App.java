@@ -9,7 +9,8 @@ public class App {
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 25, 39));
 //        System.out.println("-------------------");
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 500000, 6));
-        System.out.println(divisionWithPeriodFinding.findingPeriod(25, 39));
+
+        System.out.println(divisionWithPeriodFinding.findingPeriod(1234567, 98));
 //        System.out.println("-------------------");
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 500000, 3));
 //        System.out.println("-------------------");
