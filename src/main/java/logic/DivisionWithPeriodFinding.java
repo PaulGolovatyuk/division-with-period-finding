@@ -1,5 +1,6 @@
 package logic;
 
+import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -22,9 +23,22 @@ public class DivisionWithPeriodFinding {
 
     private boolean isDividendIsNegative;
     private boolean isDivisorIsNegative;
+    private boolean isRepeater = false;
 
     private List<Integer> dividendList;
     private List<Integer> actualQuotientList;
+
+    private int secondAppearenceIndex;
+    private int thirdAppearenceIndex;
+    private int startOfRepeatedSequence;
+    private int lengthofRepeatedSequence;
+    private int  firstAppearanceIndex;
+    private char[] periodSequenceCharsArray;
+    private char[] terminatedSequenceCharsArray;
+    private char [] digitsAfterCommaCharsArray;
+    private char[] tenDigitsAfterCommaArray;
+    private boolean isTerminatedSequenceEmpty;
+
 
 
     public int longDivision(int aDividend, int aDivisor) {
@@ -47,8 +61,33 @@ public class DivisionWithPeriodFinding {
         Integer indivRem = indivisibleRemainder;
         indivisibleRemainderLength = indivRem.toString().length();
         actualQuotient = dividend / divisor;
+
         dividendList = fromIntToList(dividend);
+        findingPeriod(dividend, divisor);
+
         actualQuotientList = fromIntToList(actualQuotient);
+                if (!isRepeater){
+            if (digitsAfterCommaCharsArray.length>10){
+                for (char c : tenDigitsAfterCommaArray) {
+                    actualQuotientList.add(Integer.parseInt(String.valueOf(c)));
+                }
+            }else{
+                for (char c : digitsAfterCommaCharsArray) {
+                    actualQuotientList.add(Integer.parseInt(String.valueOf(c)));
+                }
+            }
+
+        }else{
+            if (!isTerminatedSequenceEmpty){
+                for (char c : terminatedSequenceCharsArray) {
+                    actualQuotientList.add(Integer.parseInt(String.valueOf(c)));
+                }
+            }
+            for (char c : periodSequenceCharsArray) {
+                actualQuotientList.add(Integer.parseInt(String.valueOf(c)));
+            }
+        }
+
         firstSubdividend = 0;
         firstSubtrahend = 0;
 
@@ -81,6 +120,7 @@ public class DivisionWithPeriodFinding {
                 integerPartIsCalculated = true;
                 lastDividendBeforeComma = subDividend;
                 lastSubtrahendBeforeComma = subtrahend;
+
             }
             if (indivisibleRemainder != 0&&integerPartIsCalculated) {
                 while (indivisibleRemainder / divisor == 0) {
@@ -88,6 +128,10 @@ public class DivisionWithPeriodFinding {
                     dividendList.add(0);
                 }
                 subDividend = indivisibleRemainder;
+            }
+            if (integerPartIsCalculated&&indivisibleRemainder!=0){
+                dividendList.add(0);
+            if (i==actualQuotientList.size())break;
             }
         }
 
@@ -102,32 +146,76 @@ public class DivisionWithPeriodFinding {
         double doubleResult = doubleDividend/doubleDivisor;
         int quotient = aDividend/aDivisor;
         int quotientLength = Integer.toString(quotient).length();
-        char[] tenDigitsAfterCommaArray = new char[10];;
         String digitsAfterCommaString;
         String doubleResultString = doubleResult+"";
         String digitsAfterCommaStr = doubleResultString.substring(quotientLength+1);
-        char [] digitsAfterCommaCharsArray = digitsAfterCommaStr.toCharArray();
-        if (digitsAfterCommaCharsArray.length>11) {
-            for (int i = 0; i < 10; i++) {
+
+        isRepeater = false;
+
+        digitsAfterCommaCharsArray = digitsAfterCommaStr.toCharArray();
+        tenDigitsAfterCommaArray = new char[10];
+        boolean firstCoincidence = false;
+        boolean secondCoincidence = false;
+        boolean startAppearanceSequenceAssiggned = false;
+        boolean firstAppearanceIndexAssigned = false;
+
+
+
+        for (int i = 0; i <digitsAfterCommaCharsArray.length ; i++) {
+            for (int j = i+1; j <digitsAfterCommaCharsArray.length ; j++) {
+                if (digitsAfterCommaCharsArray[i]==digitsAfterCommaCharsArray[j]){
+                    firstCoincidence = true;
+                    secondAppearenceIndex = j;
+                    for (int k = j+1; k < digitsAfterCommaCharsArray.length; k++) {
+                        if (digitsAfterCommaCharsArray[i]==digitsAfterCommaCharsArray[k]){
+                            secondCoincidence = true;
+                            thirdAppearenceIndex = k;
+                            if ((k-j)==(j-i)&&digitsAfterCommaCharsArray[j-1]==digitsAfterCommaCharsArray[k-1]){
+                                isRepeater = true;
+                                lengthofRepeatedSequence = j-i;
+                                if (!startAppearanceSequenceAssiggned){
+                                    startOfRepeatedSequence = Integer.parseInt(String.valueOf(digitsAfterCommaCharsArray[i]));
+                                    startAppearanceSequenceAssiggned = true;
+                                }
+                                if (!firstAppearanceIndexAssigned){
+                                    firstAppearanceIndex = i;
+                                    firstAppearanceIndexAssigned = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+        if (digitsAfterCommaCharsArray.length>10&&!isRepeater){
+            for (int i = 0; i <10 ; i++) {
                 tenDigitsAfterCommaArray[i] = digitsAfterCommaCharsArray[i];
             }
-            digitsAfterCommaString = new String(tenDigitsAfterCommaArray);
-        }else {
-            digitsAfterCommaString = new String(digitsAfterCommaCharsArray);
-            return digitsAfterCommaString;
         }
-        List <Integer> digitsInPeriod =new ArrayList<Integer>();
-        for (char aTenDigitsAfterCommaArray : tenDigitsAfterCommaArray) {
-            digitsInPeriod.add(Integer.parseInt(String.valueOf(aTenDigitsAfterCommaArray)));
-        }
-            StringBuilder res = new StringBuilder();
-            for (Integer integer : digitsInPeriod) {
-                res.append(integer);
-            }
-             result = res.toString();
 
-        return result ;
+
+            periodSequenceCharsArray = new char[lengthofRepeatedSequence];
+            for (int i = firstAppearanceIndex,  j = 0; j <periodSequenceCharsArray.length ; i++, j++ ) {
+            periodSequenceCharsArray[j] = digitsAfterCommaCharsArray[i];
+        }
+        //find terminated sequence
+        terminatedSequenceCharsArray = new char[digitsAfterCommaCharsArray.length - (digitsAfterCommaCharsArray.length - firstAppearanceIndex)];
+        for (int i = 0; i <firstAppearanceIndex ; i++) {
+            terminatedSequenceCharsArray[i] =  digitsAfterCommaCharsArray[i];
+        }
+        if (firstAppearanceIndex==0){
+            isTerminatedSequenceEmpty = true;
+        }
+
+        return new String(periodSequenceCharsArray) ;
+
+
     }
+
+
+
 
     private List<Integer> fromIntToList(Integer i) {
         List<Integer> integers = new ArrayList<Integer>();
@@ -180,6 +268,54 @@ public class DivisionWithPeriodFinding {
 
     public int getLastSubtrahendBeforeComma() {
         return lastSubtrahendBeforeComma;
+    }
+
+    public int getSecondAppearenceIndex() {
+        return secondAppearenceIndex;
+    }
+
+    public int getThirdAppearenceIndex() {
+        return thirdAppearenceIndex;
+    }
+
+    public int getStartOfRepeatedSequence() {
+        return startOfRepeatedSequence;
+    }
+
+    public int getLengthofRepeatedSequence() {
+        return lengthofRepeatedSequence;
+    }
+
+    public int getFirstAppearanceIndex() {
+        return firstAppearanceIndex;
+    }
+
+    public char[] getPeriodSequenceCharsArray() {
+        return periodSequenceCharsArray;
+    }
+
+    public char[] getTerminatedSequenceCharsArray() {
+        return terminatedSequenceCharsArray;
+    }
+
+    public boolean isTerminatedSequenceEmpty() {
+        return isTerminatedSequenceEmpty;
+    }
+
+    public boolean isRepeater() {
+        return isRepeater;
+    }
+
+    public char[] getDigitsAfterCommaCharsArray() {
+        return digitsAfterCommaCharsArray;
+    }
+
+    public char[] getTenDigitsAfterCommaArray() {
+        return tenDigitsAfterCommaArray;
+    }
+
+    public void setDividend(int dividend) {
+        this.dividend = dividend;
     }
 }
 
