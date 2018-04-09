@@ -221,7 +221,7 @@ public class ShowResult {
             }
 
 
-            currentSubDividend = currentRemainder * 10 + dividentList.get(i + currentSubDividendLength);
+            currentSubDividend = currentRemainder * 10 + dividentList.get(i);//if not work = i+ currentSubDividendLength
             currentSubtrahend = (currentSubDividend / div.getDivisor()) * div.getDivisor();
             currentRemainder = currentSubDividend % div.getDivisor();
 
