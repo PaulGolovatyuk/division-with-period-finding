@@ -32,7 +32,7 @@ public class ShowResult {
         resultSb.append(thirdLineBuild(integerDivision, argDividend, argDivisor));
         resultSb.append("\n");
         resultSb.append(intermidediateActionsLineBuild(integerDivision, argDividend, argDivisor));
-        resultSb.append(intermediateActionsAfterComma(integerDivision));
+//        resultSb.append(intermediateActionsAfterComma(integerDivision));
 //        resultSb.append(indivisibleRemainderLineBuild(integerDivision, argDividend, argDivisor));
 
         return resultSb.toString();
@@ -147,11 +147,11 @@ public class ShowResult {
         if (div.isDividendIsNegative() ^ div.isDivisorIsNegative()) {
             thirdLineSb.append("-");
         }
-        thirdLineSb.append(div.getActualQuotient());
+        thirdLineSb.append(div.getActualQuotientBeforeComma());
         if (div.getIndivisibleRemainder() != 0) {
             thirdLineSb.append(".");
         }
-        if (div.isRepeater()) {
+        if (div.isPeriodDecimal()) {
             for (char c : terminatedSeqienceCharsArray) {
                 terminatedSequenceSb.append(c);
             }
@@ -192,6 +192,8 @@ public class ShowResult {
         int currentSubtrahend = div.getFirstSubtrahend();
         int currentRemainder = currentSubDividend - currentSubtrahend;
         int currentSubDividendLength = Integer.toString(currentSubDividend).length();
+        int quotientDigitsOnly;
+        int numberOfActions;
 
         boolean notEmpty;
         boolean breakthrough = false;
@@ -200,7 +202,9 @@ public class ShowResult {
         if (Integer.toString(currentRemainder).length() < Integer.toString(currentSubtrahend).length()) {
             additionOffset++;
         }
-        for (int i = 0; i < otherLinesBlocksArray.length - 1; i++) {
+        quotientDigitsOnly = (Integer.parseInt(""+div.getActualQuotientBeforeComma() + div.getActualQuotientAfterComma()));
+        numberOfActions = (quotientDigitsOnly+"").length();
+        for (int i = 0; i < numberOfActions-1; i++) {
             String summary;
             StringBuilder substringOneSb = new StringBuilder(justWhitespaces);
             List<Integer> dividentList = div.getDividendList();
@@ -220,8 +224,7 @@ public class ShowResult {
                 additionOffset++;
             }
 
-
-            currentSubDividend = currentRemainder * 10 + dividentList.get(i);//if not work = i+ currentSubDividendLength
+            currentSubDividend = currentRemainder * 10 + dividentList.get(i);
             currentSubtrahend = (currentSubDividend / div.getDivisor()) * div.getDivisor();
             currentRemainder = currentSubDividend % div.getDivisor();
 
@@ -259,9 +262,9 @@ public class ShowResult {
                 substringThreeSb.insert(i + 1 + additionOffset, "" + dashes);
             }
             //fitting to required length
-            String subSOne = substringOneSb.substring(0, lengthOfDividendInOutput);
-            String subSTwo = substringTwoSb.substring(0, lengthOfDividendInOutput);
-            String subThree = substringThreeSb.substring(0, lengthOfDividendInOutput);
+            String subSOne = substringOneSb.toString();
+            String subSTwo = substringTwoSb.toString();
+            String subThree = substringThreeSb.toString();
 
             if (div.isDividendIsNegative()) {
                 summary = " " + subSOne + "\n" + " " + subSTwo + "\n" + " " + subThree;

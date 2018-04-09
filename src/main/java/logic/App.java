@@ -8,7 +8,7 @@ public class App {
     public static void main(String[] args) {
         DivisionWithPeriodFinding divisionWithPeriodFinding = new DivisionWithPeriodFinding();
         ShowResult showResult = new ShowResult();
-//        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 7, 12));
+        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 25, 39));
 //        System.out.println("-------------------");
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 500000, 6));
 //        System.out.println(divisionWithPeriodFinding.findingPeriod(1000, 3));
@@ -23,7 +23,7 @@ public class App {
 //        System.out.println("-------------------");
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 15, 15));
 //        System.out.println("-------------------");
-        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 25, 39));
+//        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 25, 39));
 //        System.out.println("-------------------");
 //        System.out.println(showResult.buildOutputStringOfDivision(divisionWithPeriodFinding, 78459, 4));
 //        System.out.println("-------------------");
