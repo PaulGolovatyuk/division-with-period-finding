@@ -7,8 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ShowResult {
+    int beforeVerticalPipeLineLength;
+
 
     public String buildOutputStringOfDivision(DivisionWithPeriodFinding integerDivision, int argDividend, int argDivisor) {
+
 
         //if dividend is zero:
         StringBuilder dashesSb = new StringBuilder();
@@ -22,6 +25,8 @@ public class ShowResult {
         if (argDividend == 0) {
             return zeroDividendString;
         }
+
+
         integerDivision.longDivision(argDividend, argDivisor);
         integerDivision.findingPeriod(argDividend, argDivisor);
         StringBuilder resultSb = new StringBuilder();
@@ -31,7 +36,9 @@ public class ShowResult {
         resultSb.append("\n");
         resultSb.append(thirdLineBuild(integerDivision, argDividend, argDivisor));
         resultSb.append("\n");
-        resultSb.append(intermidediateActionsLineBuild(integerDivision, argDividend, argDivisor));
+        if (integerDivision.getDividend()!=integerDivision.getDivisor()) {
+            resultSb.append(intermidediateActionsLineBuild(integerDivision, argDividend, argDivisor));
+        }
 //        resultSb.append(intermediateActionsAfterComma(integerDivision));
 //        resultSb.append(indivisibleRemainderLineBuild(integerDivision, argDividend, argDivisor));
 
@@ -41,15 +48,25 @@ public class ShowResult {
 
     private String firstLineBuild(DivisionWithPeriodFinding div, int argDividend, int argDivisor) {
         //building line #1
+        if (div.getDividend()<div.getDivisor()) {
+            beforeVerticalPipeLineLength = Integer.toString(div.getDividend()).length() + 1 +
+                    ((Integer.toString(div.getFirstSubtrahend()).length()) -
+                            Integer.toString(div.getDividend()).length());
+        }else{
+            beforeVerticalPipeLineLength = Integer.toString(div.getDividend()).length()+1;
+        }
+
         String firstLine;
         List<String> firstStringList = new ArrayList<String>();
         StringBuilder firstLineSb = new StringBuilder();
-        firstStringList.add("_");
-        if (div.isDividendIsNegative()) {
-            firstStringList.add("-");
+        firstLineSb.append("_");
+        firstLineSb.append(String.valueOf(div.getDividend()));
+        int whitespacesAfterDividend = Integer.toString(div.getFirstSubtrahend()).length()-
+                                    Integer.toString(div.getDividend()).length();
+        for (int i = 0; i < whitespacesAfterDividend; i++) {
+            firstLineSb.append(" ");
         }
-        firstStringList.add(String.valueOf(div.getDividend()));
-        firstStringList.add("|");
+        firstLineSb.append("|");
         if (div.isDivisorIsNegative()) {
             firstStringList.add("-");
         }
@@ -86,16 +103,21 @@ public class ShowResult {
         } else {
             secondLineSb.append(firstSubtrahend);
         }
-        numberOfWhitespacesInSecondLine = div.getDividendList().size() -
-                Integer.toString(firstSubtrahend).length();
+        numberOfWhitespacesInSecondLine = beforeVerticalPipeLineLength - secondLineSb.length();
         for (int i = 0; i < numberOfWhitespacesInSecondLine; i++) {
             secondLineSb.append(" ");
         }
-        if (firstSubtrahendLessThanSubDividend) {
-            secondLineSb.delete(secondLineSb.length() - 1, secondLineSb.length());
-        }
+//        if (firstSubtrahendLessThanSubDividend) {
+//            secondLineSb.delete(secondLineSb.length() - 1, secondLineSb.length());
+//        }
         secondLineSb.append("|");
-        int quotientLength = div.getActualQuotientList().size();
+        int quotientLength = 0;
+        if (div.getActualQuotientList()!=null) {
+            quotientLength = div.getActualQuotientList().size();
+        }else {
+            quotientLength = 1;
+        }
+
         for (int i = 0; i < quotientLength; i++) {
             secondLineSb.append("-");
         }
@@ -103,6 +125,7 @@ public class ShowResult {
                 quotientLength) {
             secondLineSb.append("-");
         }
+//        beforeVerticalPipeLineLength = 0;
         return secondLineSb.toString();
     }
 
@@ -135,43 +158,47 @@ public class ShowResult {
         for (int i = 0; i < Integer.toString(firstSubtrahend).length(); i++) {
             thirdLineSb.append("-");
         }
-        numberOfWhitespacesInSecondLine = div.getDividendList().size() -
-                Integer.toString(firstSubtrahend).length();
+        numberOfWhitespacesInSecondLine = beforeVerticalPipeLineLength - thirdLineSb.length();
         for (int i = 0; i < numberOfWhitespacesInSecondLine; i++) {
             thirdLineSb.append(" ");
         }
-        if (firstSubtrahendLessThanSubDividend) {
-            thirdLineSb.delete(thirdLineSb.length() - 1, thirdLineSb.length());
-        }
+//        if (firstSubtrahendLessThanSubDividend) {
+//            thirdLineSb.delete(thirdLineSb.length() - 1, thirdLineSb.length());
+//        }
         thirdLineSb.append("|");
         if (div.isDividendIsNegative() ^ div.isDivisorIsNegative()) {
             thirdLineSb.append("-");
         }
-        thirdLineSb.append(div.getActualQuotientBeforeComma());
-        if (div.getIndivisibleRemainder() != 0) {
-            thirdLineSb.append(".");
-        }
-        if (div.isPeriodDecimal()) {
-            for (char c : terminatedSeqienceCharsArray) {
-                terminatedSequenceSb.append(c);
-            }
-            terminatedSequenceString = terminatedSequenceSb.toString();
-            if (!div.isTerminatedSequenceEmpty()) {
-                thirdLineSb.append(terminatedSequenceString);
-            }
-            thirdLineSb.append("(");
 
-            for (char c : periodSequenceCharsArray) {
-                periodSb.append(String.valueOf(c));
+        if (!div.isDecimal()) {
+            thirdLineSb.append(div.getActualQuotientBeforeComma());
+        }else {
+            thirdLineSb.append(div.getActualQuotientBeforeComma());
+            if (div.getIndivisibleRemainder() != 0) {
+                thirdLineSb.append(".");
             }
-            periodString = periodSb.toString();
-            thirdLineSb.append(periodString);
-            thirdLineSb.append(")");
-        } else {
-            if (div.getDigitsAfterCommaCharsArray().length > 10) {
-                thirdLineSb.append(div.getTenDigitsAfterCommaArray());//todo convert to String
+            if (div.isPeriodDecimal()) {
+                for (char c : terminatedSeqienceCharsArray) {
+                    terminatedSequenceSb.append(c);
+                }
+                terminatedSequenceString = terminatedSequenceSb.toString();
+                if (!div.isTerminatedSequenceEmpty()) {
+                    thirdLineSb.append(terminatedSequenceString);
+                }
+                thirdLineSb.append("(");
+
+                for (char c : periodSequenceCharsArray) {
+                    periodSb.append(String.valueOf(c));
+                }
+                periodString = periodSb.toString();
+                thirdLineSb.append(periodString);
+                thirdLineSb.append(")");
             } else {
-                thirdLineSb.append(div.getDigitsAfterCommaCharsArray());//todo convert to String
+                if (div.getDigitsAfterCommaCharsArray().length > 10) {
+                    thirdLineSb.append(div.getTenDigitsAfterCommaArray());//todo convert to String
+                } else {
+                    thirdLineSb.append(div.getDigitsAfterCommaCharsArray());//todo convert to String
+                }
             }
         }
 
@@ -188,11 +215,12 @@ public class ShowResult {
         Arrays.fill(componentBlocksArray, ' ');
         String justWhitespaces = new String(componentBlocksArray);
 
+        //pre-init
         int currentSubDividend = div.getFirstSubdividend();
         int currentSubtrahend = div.getFirstSubtrahend();
         int currentRemainder = currentSubDividend - currentSubtrahend;
         int currentSubDividendLength = Integer.toString(currentSubDividend).length();
-        int quotientDigitsOnly;
+        long quotientDigitsOnly;
         int numberOfActions;
 
         boolean notEmpty;
@@ -202,9 +230,14 @@ public class ShowResult {
         if (Integer.toString(currentRemainder).length() < Integer.toString(currentSubtrahend).length()) {
             additionOffset++;
         }
-        quotientDigitsOnly = (Integer.parseInt(""+div.getActualQuotientBeforeComma() + div.getActualQuotientAfterComma()));
-        numberOfActions = (quotientDigitsOnly+"").length();
-        for (int i = 0; i < numberOfActions-1; i++) {
+        if (div.isDecimal()) {
+            quotientDigitsOnly = (Long.parseLong("" + div.getActualQuotientBeforeComma() + div.getActualQuotientAfterComma()));
+        }else {
+            quotientDigitsOnly = div.getActualQuotientBeforeComma();//
+        }
+            numberOfActions = (quotientDigitsOnly+"").length()-1;
+//            if (div.getActualQuotientBeforeComma()==0) numberOfActions++;
+        for (int i = 0; i < numberOfActions ; i++) {/////////////todo or without -1
             String summary;
             StringBuilder substringOneSb = new StringBuilder(justWhitespaces);
             List<Integer> dividentList = div.getDividendList();
@@ -215,16 +248,15 @@ public class ShowResult {
                 additionOffset = 0;
             }
 
-            additionOffset += Integer.toString(currentSubtrahend).length()
-                    - (Integer.toString(currentSubtrahend).length()
-                    - (Integer.toString(currentSubDividend).length()
-                    - Integer.toString(currentSubtrahend).length()));
+
+            additionOffset += (Integer.toString(currentSubDividend).length()
+                    - Integer.toString(currentSubtrahend).length());
 
             if (currentRemainder == 0) {
                 additionOffset++;
             }
 
-            currentSubDividend = currentRemainder * 10 + dividentList.get(i);
+            currentSubDividend = currentRemainder * 10 + dividentList.get(i+ Integer.parseInt(String.valueOf(String.valueOf(div.getFirstSubdividend()).length())));
             currentSubtrahend = (currentSubDividend / div.getDivisor()) * div.getDivisor();
             currentRemainder = currentSubDividend % div.getDivisor();
 
@@ -241,13 +273,19 @@ public class ShowResult {
             } else {
                 notEmpty = true;
 
-                //construct substring #1
-                substringOneSb.insert(i + additionOffset, "_" + currentSubDividend);
             }
 
+                //construct substring #1
+                substringOneSb.insert(i + additionOffset, "_" + currentSubDividend);
+
+
             //construct substring #2
+            int delta = 0;
             StringBuilder substringTwoSb = new StringBuilder(justWhitespaces);
-            substringTwoSb.insert(i + 1 + additionOffset, "" + currentSubtrahend);
+            delta = (Integer.toString(currentSubDividend).length())-
+                    (Integer.toString(currentSubtrahend).length());
+            substringTwoSb.insert(i + 1 + delta+  additionOffset, "" + currentSubtrahend);
+
 
             //construct substring #3
             StringBuilder substringThreeSb = new StringBuilder(justWhitespaces);
@@ -255,12 +293,9 @@ public class ShowResult {
             for (int j = 0; j < Integer.toString(currentSubtrahend).length(); j++) {
                 dashes.append("-");
             }
-            if (Integer.toString(currentSubDividend).length() >
-                    Integer.toString(currentSubtrahend).length()) {
-                substringThreeSb.insert(i + 3, "" + dashes);
-            } else {
-                substringThreeSb.insert(i + 1 + additionOffset, "" + dashes);
-            }
+
+                substringThreeSb.insert(i + 1 + delta+ additionOffset, "" + dashes);
+
             //fitting to required length
             String subSOne = substringOneSb.toString();
             String subSTwo = substringTwoSb.toString();
