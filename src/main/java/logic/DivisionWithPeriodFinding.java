@@ -34,19 +34,19 @@ public class DivisionWithPeriodFinding {
     private int secondAppearenceIndex;
     private int thirdAppearenceIndex;
     private int startOfRepeatedSequence;
-    private int lengthofRepeatedSequence;
-    private int  firstAppearanceIndex;
+    private int lengthOfRepeatedSequence;
+    private int firstAppearanceIndex;
     private char[] periodSequenceCharsArray;
     private char[] terminatedSequenceCharsArray;
-    private char [] digitsAfterCommaCharsArray;
+    private char[] digitsAfterCommaCharsArray;
     private char[] tenDigitsAfterCommaArray;
     private boolean isTerminatedSequenceEmpty;
-
 
 
     public int longDivision(int aDividend, int aDivisor) {
         isDecimal = false;
         isTerminatedDecimal = false;
+        isTerminatedSequenceEmpty = false;
         actualQuotientAfterComma = 0;
         boolean firstSubDivAssigned = false;
         boolean firstSubtrahendAssigned = false;
@@ -63,11 +63,11 @@ public class DivisionWithPeriodFinding {
         }
 
         //init block
-        findingPeriod(dividend,divisor);
-        if (dividend<divisor||dividend%divisor!=0){
+        findingPeriod(dividend, divisor);
+        if (dividend < divisor || dividend % divisor != 0) {
             isDecimal = true;
         }
-        if (isDecimal&&!isPeriodDecimal){
+        if (isDecimal && !isPeriodDecimal) {
             isTerminatedDecimal = true;
         }
         numberOfZerosAfterComma = 0;
@@ -77,27 +77,27 @@ public class DivisionWithPeriodFinding {
         indivisibleRemainderLength = indivRem.toString().length();
         actualQuotientBeforeComma = dividend / divisor;
 
-        if (isDecimal&&isTerminatedDecimal&&digitsAfterCommaCharsArray.length<=10){
+        if (isDecimal && isTerminatedDecimal && digitsAfterCommaCharsArray.length <= 10) {
             actualQuotientAfterComma = Integer.parseInt(new String(digitsAfterCommaCharsArray));
-        }else if(!isPeriodDecimal&&digitsAfterCommaCharsArray.length>10){
+        } else if (!isPeriodDecimal && digitsAfterCommaCharsArray.length > 10) {
             actualQuotientAfterComma = Long.parseLong(new String(tenDigitsAfterCommaArray));
-        }else if (isPeriodDecimal&&!isTerminatedSequenceEmpty){
-            actualQuotientAfterComma = Long.parseLong(new String(terminatedSequenceCharsArray)+
+        } else if (isPeriodDecimal && !isTerminatedSequenceEmpty) {
+            actualQuotientAfterComma = Long.parseLong(new String(terminatedSequenceCharsArray) +
                     new String(periodSequenceCharsArray));
-        }else if (isPeriodDecimal&&isTerminatedSequenceEmpty){
+        } else if (isPeriodDecimal && isTerminatedSequenceEmpty) {
             actualQuotientAfterComma = Integer.parseInt(new String(periodSequenceCharsArray));
         }
 
-        char [] actualQuotientAfterCommaCharArray;
-        actualQuotientAfterCommaCharArray = (actualQuotientAfterComma+"").toCharArray();
+        char[] actualQuotientAfterCommaCharArray;
+        actualQuotientAfterCommaCharArray = (actualQuotientAfterComma + "").toCharArray();
         for (char c : actualQuotientAfterCommaCharArray) {
-            if (c == '0'&&actualQuotientAfterCommaCharArray.length!=1) numberOfZerosAfterComma++;
+            if (c == '0' && actualQuotientAfterCommaCharArray.length != 1) numberOfZerosAfterComma++;
         }
         dividendList = fromIntToList(dividend);
         findingPeriod(dividend, divisor);
 
         //if remainder > 0
-        if (dividend%divisor>0||dividend<divisor) {
+        if (dividend % divisor >= 0 || dividend < divisor) {
             actualQuotientList = fromIntToList(actualQuotientBeforeComma);
             if (!isPeriodDecimal) {
                 if (digitsAfterCommaCharsArray.length > 10) {
@@ -119,7 +119,7 @@ public class DivisionWithPeriodFinding {
                     actualQuotientList.add(Integer.parseInt(String.valueOf(c)));
                 }
             }
-            for (int i = 0; i <actualQuotientList.size()-1 ; i++) {
+            for (int i = 0; i < actualQuotientList.size() - 1; i++) {
                 dividendList.add(0);
             }
         }
@@ -127,7 +127,7 @@ public class DivisionWithPeriodFinding {
         firstSubdividend = 0;
         firstSubtrahend = 0;
         subDividend = 0;
-        for (int i = 0; i <dividendList.size() ; ) {
+        for (int i = 0; i < dividendList.size(); ) {
             if (subDividend < divisor) {
                 subDividend = subDividend * 10 + dividendList.get(i);
             }
@@ -140,8 +140,8 @@ public class DivisionWithPeriodFinding {
             subtrahend = partOfQuotient * divisor;
 
             if (subDividend / divisor > 0 && !firstSubtrahendAssigned) {
-                    firstSubtrahend = subtrahend;
-                    firstSubtrahendAssigned = true;
+                firstSubtrahend = subtrahend;
+                firstSubtrahendAssigned = true;
             }
             subDividend = remainder;
             i++;
@@ -149,45 +149,39 @@ public class DivisionWithPeriodFinding {
         }
 
 
-        return  dividend/divisor;
+        return dividend / divisor;
     }
 
-    public String findingPeriod(int aDividend, int aDivisor){
-        String result = null;
+    public String findingPeriod(int aDividend, int aDivisor) {
         double doubleDividend = (double) aDividend;
         double doubleDivisor = (double) aDivisor;
-        double doubleResult = doubleDividend/doubleDivisor;
-        int quotient = aDividend/aDivisor;
+        double doubleResult = doubleDividend / doubleDivisor;
+        int quotient = aDividend / aDivisor;
         int quotientLength = Integer.toString(quotient).length();
-        String digitsAfterCommaString;
-        String doubleResultString = doubleResult+"";
-        String digitsAfterCommaStr = doubleResultString.substring(quotientLength+1);
+        String doubleResultString = doubleResult + "";
+        String digitsAfterCommaStr = doubleResultString.substring(quotientLength + 1);
 
         isPeriodDecimal = false;
-        lengthofRepeatedSequence = 0;
+        lengthOfRepeatedSequence = 0;
         digitsAfterCommaCharsArray = digitsAfterCommaStr.toCharArray();
         tenDigitsAfterCommaArray = new char[10];
-        boolean firstCoincidence = false;
-        boolean secondCoincidence = false;
-        boolean startAppearanceSequenceAssiggned = false;
+        boolean startAppearanceSequenceAssigned = false;
         boolean firstAppearanceIndexAssigned = false;
-        for (int i = 0; i <digitsAfterCommaCharsArray.length ; i++) {
-            for (int j = i+1; j <digitsAfterCommaCharsArray.length ; j++) {
-                if (digitsAfterCommaCharsArray[i]==digitsAfterCommaCharsArray[j]){
-                    firstCoincidence = true;
+        for (int i = 0; i < digitsAfterCommaCharsArray.length; i++) {
+            for (int j = i + 1; j < digitsAfterCommaCharsArray.length; j++) {
+                if (digitsAfterCommaCharsArray[i] == digitsAfterCommaCharsArray[j]) {
                     secondAppearenceIndex = j;
-                    for (int k = j+1; k < digitsAfterCommaCharsArray.length; k++) {
-                        if (digitsAfterCommaCharsArray[i]==digitsAfterCommaCharsArray[k]){
-                            secondCoincidence = true;
+                    for (int k = j + 1; k < digitsAfterCommaCharsArray.length; k++) {
+                        if (digitsAfterCommaCharsArray[i] == digitsAfterCommaCharsArray[k]) {
                             thirdAppearenceIndex = k;
-                            if ((k-j)==(j-i)&&digitsAfterCommaCharsArray[j-1]==digitsAfterCommaCharsArray[k-1]){
+                            if ((k - j) == (j - i) && digitsAfterCommaCharsArray[j - 1] == digitsAfterCommaCharsArray[k - 1]) {
                                 isPeriodDecimal = true;
-                                lengthofRepeatedSequence = j-i;
-                                if (!startAppearanceSequenceAssiggned){
+                                lengthOfRepeatedSequence = j - i;
+                                if (!startAppearanceSequenceAssigned) {
                                     startOfRepeatedSequence = Integer.parseInt(String.valueOf(digitsAfterCommaCharsArray[i]));
-                                    startAppearanceSequenceAssiggned = true;
+                                    startAppearanceSequenceAssigned = true;
                                 }
-                                if (!firstAppearanceIndexAssigned){
+                                if (!firstAppearanceIndexAssigned) {
                                     firstAppearanceIndex = i;
                                     firstAppearanceIndexAssigned = true;
                                 }
@@ -199,29 +193,28 @@ public class DivisionWithPeriodFinding {
 
 
         }
-        if (digitsAfterCommaCharsArray.length>10&&!isPeriodDecimal){
-            for (int i = 0; i <10 ; i++) {
+        if (digitsAfterCommaCharsArray.length > 10 && !isPeriodDecimal) {
+            for (int i = 0; i < 10; i++) {
                 tenDigitsAfterCommaArray[i] = digitsAfterCommaCharsArray[i];
             }
         }
 
-            periodSequenceCharsArray = new char[lengthofRepeatedSequence];
-            for (int i = firstAppearanceIndex,  j = 0; j <periodSequenceCharsArray.length ; i++, j++ ) {
+        periodSequenceCharsArray = new char[lengthOfRepeatedSequence];
+        for (int i = firstAppearanceIndex, j = 0; j < periodSequenceCharsArray.length; i++, j++) {
             periodSequenceCharsArray[j] = digitsAfterCommaCharsArray[i];
         }
         //find terminated sequence
         terminatedSequenceCharsArray = new char[digitsAfterCommaCharsArray.length - (digitsAfterCommaCharsArray.length - firstAppearanceIndex)];
-        for (int i = 0; i <firstAppearanceIndex ; i++) {
-            terminatedSequenceCharsArray[i] =  digitsAfterCommaCharsArray[i];
+        for (int i = 0; i < firstAppearanceIndex; i++) {
+            terminatedSequenceCharsArray[i] = digitsAfterCommaCharsArray[i];
         }
-        if (firstAppearanceIndex==0){
+        if (firstAppearanceIndex == 0) {
             isTerminatedSequenceEmpty = true;
         }
 
-        return new String(periodSequenceCharsArray) ;
-
-
+        return new String(periodSequenceCharsArray);
     }
+
     private List<Integer> fromIntToList(Integer i) {
         List<Integer> integers = new ArrayList<Integer>();
         char[] intCharArray = i.toString().toCharArray();
@@ -235,30 +228,35 @@ public class DivisionWithPeriodFinding {
     public boolean isDividendIsNegative() {
         return isDividendIsNegative;
     }
+
     public boolean isDivisorIsNegative() {
         return isDivisorIsNegative;
     }
-    public int getIndivisibleRemainderLength() {
-        return indivisibleRemainderLength;
-    }
+
     public int getIndivisibleRemainder() {
         return indivisibleRemainder;
     }
+
     public List<Integer> getActualQuotientList() {
         return actualQuotientList;
     }
+
     public List<Integer> getDividendList() {
         return dividendList;
     }
+
     public int getDividend() {
         return dividend;
     }
+
     public int getDivisor() {
         return divisor;
     }
+
     public int getActualQuotientBeforeComma() {
         return actualQuotientBeforeComma;
     }
+
     public int getFirstSubdividend() {
         return firstSubdividend;
     }
@@ -292,16 +290,8 @@ public class DivisionWithPeriodFinding {
         return tenDigitsAfterCommaArray;
     }
 
-    public void setDividend(int dividend) {
-        this.dividend = dividend;
-    }
-
     public long getActualQuotientAfterComma() {
         return actualQuotientAfterComma;
-    }
-
-    public int getNumberOfZerosAfterComma() {
-        return numberOfZerosAfterComma;
     }
 
     public boolean isDecimal() {

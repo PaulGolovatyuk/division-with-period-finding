@@ -9,6 +9,21 @@ public class ShowResultTest {
     private ShowResult showResult = new ShowResult();
 
     @Test
+    public void dividendLessThanDivisorTest(){
+            String expected = "_7 |12\n"+
+                              " 60|-------\n"+
+                              " --|0.58(3)\n"+
+                              "_100\n"+
+                              "  96\n"+
+                              "  --\n"+
+                              "  _40\n"+
+                              "   36\n"+
+                              "   --\n"+
+                              "    4";
+
+            assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 7, 12));
+    }
+    @Test
     public void divisorLengthLessThanDividendLengthTest(){
             String expected =   "_1034|15\n"+
                                 "  90 |--\n"+
@@ -22,24 +37,27 @@ public class ShowResultTest {
     @Test
     public void dividendWithZerosTest(){
             String expected =   "_500000|3\n"+
-                                " 3     |------\n"+
-                                " -     |166666\n"+
-                                "_20    \n"+
-                                " 18    \n"+
-                                " --    \n"+
-                                " _20   \n"+
-                                "  18   \n"+
-                                "  --   \n"+
-                                "  _20  \n"+
-                                "   18  \n"+
-                                "   --  \n"+
-                                "   _20 \n"+
-                                "    18 \n"+
-                                "    -- \n"+
+                                " 3     |----------\n"+
+                                " -     |166666.(6)\n"+
+                                "_20\n"+
+                                " 18\n"+
+                                " --\n"+
+                                " _20\n"+
+                                "  18\n"+
+                                "  --\n"+
+                                "  _20\n"+
+                                "   18\n"+
+                                "   --\n"+
+                                "   _20\n"+
+                                "    18\n"+
+                                "    --\n"+
                                 "    _20\n"+
                                 "     18\n"+
                                 "     --\n"+
-                                "      2";
+                                "     _20\n"+
+                                "      18\n"+
+                                "      --\n"+
+                                "       2";
         assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 500000, 3));
     }
     @Test
