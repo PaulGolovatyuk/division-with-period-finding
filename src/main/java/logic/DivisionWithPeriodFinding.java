@@ -57,6 +57,7 @@ public class DivisionWithPeriodFinding {
             isDividendIsNegative = true;
             dividend *= -1;
         }
+
         if (aDivisor < 0) {
             isDivisorIsNegative = true;
             divisor *= -1;
