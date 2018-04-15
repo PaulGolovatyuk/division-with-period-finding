@@ -21,8 +21,8 @@ public class DivisionWithPeriodFinding {
     private int lastSubtrahendBeforeComma;
     private int numberOfZerosAfterComma;
 
-    private boolean isDividendIsNegative;
-    private boolean isDivisorIsNegative;
+    private boolean isDividendIsNegative = false;
+    private boolean isDivisorIsNegative = false;
     private boolean isDecimal;
     private boolean isPeriodDecimal = false;
     private boolean isTerminatedDecimal = false;
@@ -44,6 +44,8 @@ public class DivisionWithPeriodFinding {
 
 
     public int longDivision(int aDividend, int aDivisor) {
+        isDivisorIsNegative = false;
+        isDividendIsNegative = false;
         isDecimal = false;
         isTerminatedDecimal = false;
         isTerminatedSequenceEmpty = false;
@@ -153,7 +155,7 @@ public class DivisionWithPeriodFinding {
         return dividend / divisor;
     }
 
-    public String findingPeriod(int aDividend, int aDivisor) {
+    public void findingPeriod(int aDividend, int aDivisor) {
         double doubleDividend = (double) aDividend;
         double doubleDivisor = (double) aDivisor;
         double doubleResult = doubleDividend / doubleDivisor;
@@ -213,7 +215,6 @@ public class DivisionWithPeriodFinding {
             isTerminatedSequenceEmpty = true;
         }
 
-        return new String(periodSequenceCharsArray);
     }
 
     private List<Integer> fromIntToList(Integer i) {

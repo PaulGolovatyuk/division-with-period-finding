@@ -10,18 +10,15 @@ public class ShowResultTest {
 
     @Test
     public void dividendLessThanDivisorTest(){
-            String expected = "_7 |12\n"+
-                              " 60|-------\n"+
-                              " --|0.58(3)\n"+
-                              "_100\n"+
-                              "  96\n"+
+            String expected = "_5 |6\n"+
+                              " 48|------\n"+
+                              " --|0.8(3)\n"+
+                              " _20\n"+
+                              "  18\n"+
                               "  --\n"+
-                              "  _40\n"+
-                              "   36\n"+
-                              "   --\n"+
-                              "    4";
+                              "   2";
 
-            assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 7, 12));
+            assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 5, 6));
     }
     @Test
     public void periodDecimalWithNonPeriodPartInQuotientTest(){
@@ -87,12 +84,41 @@ public class ShowResultTest {
 
 
     @Test
+    public void dividendIsNegativeTest(){
+        String expected = "_-78|9\n"+
+                          "  72|------\n"+
+                          "  --|-8.(6)\n"+
+                          "  _60\n"+
+                          "   54\n"+
+                          "   --\n"+
+                          "    6";
+        assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, -78, 9));
+                          
+    }
+    @Test
+    public void divisorIsNegativeTest(){
+            String expected = "_475|-15\n"+
+                              " 45 |-------\n"+
+                              " -- |-31.(6)\n"+
+                              " _25\n"+
+                              "  15\n"+
+                              "  --\n"+
+                              " _100\n"+
+                              "   90\n"+
+                              "   --\n"+
+                              "   10";
+            assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 475, -15));
+    }
+
+    @Test
     public void dividendIsZeroTest(){
         String expected =   "0|"+1028+"\n"+
-                            " |----\n"+
-                            " |0";
+                " |----\n"+
+                " |0";
         assertEquals(expected, showResult.buildOutputStringOfDivision(integerDivision, 0, 1028));
     }
+
+
     @Test (expected = ArithmeticException.class)
     public void divisorIsZeroTest(){
         showResult.buildOutputStringOfDivision(integerDivision, 78949, 0);
